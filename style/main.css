@@ -1,0 +1,80 @@
+:root {
+    --Background: #282a36;
+    --CurrentLine: #44475a;
+    --Foreground: #f8f8f2;
+    --Comment: #6272a4;
+    --Cyan: #8be9fd;
+    --Green: #50fa7b;
+    --Orange: #ffb86c;
+    --Pink: #ff79c6;
+    --Purple: #bd93f9;
+    --Red: #ff5555;
+    --Yellow: #f1fa8c;
+
+    --Shadow: rgba(0, 0, 0, 0.5);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    display: block;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+
+head *, script {
+    display: none;
+}
+
+body {
+    background-color: var(--Background);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+header {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: var(--CurrentLine);
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 1rem;
+}
+
+canvas {
+    position: static;
+    background-color: var(--Comment);
+    box-shadow: 0 0 20px var(--Shadow);
+    height: auto;
+    width: auto;
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 1rem;
+}
+
+h1, h2, h3 {
+    color: var(--Orange);
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 1.45rem;
+}
+
+footer {
+    padding: 1rem 0;
+    text-align: center;
+    background-color: var(--CurrentLine);
+    color: var(--Foreground);
+}
