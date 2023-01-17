@@ -1,4 +1,4 @@
-class PlayerFigure extends ImageObject {
+class Player extends ImageObject {
     moveBy = {
 	    "left": 0,
 	    "top": 0

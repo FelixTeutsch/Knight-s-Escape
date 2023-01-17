@@ -1,6 +1,6 @@
 class Obstacle extends ImageObject {
-    constructor(name, x, y, width, height) {
-        super(name, x, y, width, height);
+    constructor(name, x, y, width, height, src) {
+        super(name, x, y, width, height, src);
         this.isRigid = true;
     }
 

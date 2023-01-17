@@ -43,7 +43,18 @@ function mouseDown(event) {
     }
 }
 
+function scrollEvent(event) {
+    if (event.deltaY > 0) // Scroll forward
+        selected = ++selected % 3;
+    else // Scroll Backward
+        selected = --selected % 3;
+    console.log("Item: ", selected, "selected")
+}
+
+let selected = 0;
+
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
 window.addEventListener("mousedown", mouseDown);
+window.addEventListener("wheel", scrollEvent);
 console.log("Input handeling was Activated");
