@@ -1,4 +1,4 @@
-class Money extends ImageObject {
+class Money extends SpriteAnimation {
     #money = {
         type: "",
         value: 0

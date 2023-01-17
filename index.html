@@ -17,8 +17,10 @@
         <h2>A game created by Felix Teutsch</h2>
     </header>
     <main>
-        <canvas id="canvas" width="1280" height="720">
-            <!-- <canvas id="canvas" width="1920" height="1080"> -->
+        <!-- <canvas id="canvas" width="1280" height="720"> -->
+        <!-- <canvas id="canvas" width="1920" height="1080"> -->
+
+        <canvas id="canvas" width="500" height="300">
 
         </canvas>
     </main>
@@ -26,18 +28,20 @@
         Knight's Escape is part of the FH St. Pölten Creative Code Lab 2023 and was created by Felix Teutsch
     </footer>
     <!-- Scripts -->
+    <script src="./game/sprite_loader/wall.js"></script>
     <script src="./game/sprite_loader/sprite_loader.js"></script>
     <script src="./game/helper/gravityHelper.js"></script>
     <!-- Game Objects -->
     <script src="./game/gameObjects/gameObject.js"></script>
-    <script src="./game/gameObjects/imageObject.js"></script>
+    <script src="./game/gameObjects/spriteImage.js"></script>
+    <script src="./game/gameObjects/spriteAnimation.js"></script>
     <script src="./game/gameObjects/wall/obstacle.js"></script>
     <script src="./game/gameObjects/wall/wall.js"></script>
 
 
     <!-- Game Setup -->
-    <script src="./game/setup/canvas.js"></script>
     <script src="./game/setup/gameManager.js"></script>
+    <script src="./game/setup/canvas.js"></script>
     <script src="./game/setup/input.js"></script>
     <script src="./game/setup/setup.js"></script>
 </body>

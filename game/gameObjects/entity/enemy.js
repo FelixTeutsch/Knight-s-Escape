@@ -1,4 +1,4 @@
-class Enemy extends ImageObject {
+class Enemy extends SpriteAnimation {
     changeMoveDirectionPossibility = 1;
     changeMoveDirectionStep = 0.00001;
     moveBy = {

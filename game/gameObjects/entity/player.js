@@ -1,4 +1,4 @@
-class Player extends ImageObject {
+class Player extends SpriteAnimation {
     moveBy = {
 	    "left": 0,
 	    "top": 0

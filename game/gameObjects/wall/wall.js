@@ -1,11 +1,5 @@
 class Wall extends Obstacle {
-    #wallKey = "";
-    constructor(name, x, y, width, height, wallKey, src) {
+    constructor(name, x, y, width, height, src, row, col, spriteWidth, spriteHeight, padding) {
         super(name, x, y, width, height, src);
-        this.#wallKey = wallKey;
-    }
-
-    getWallKey() {
-        return this.#wallKey;
     }
 }

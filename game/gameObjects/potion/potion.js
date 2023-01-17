@@ -1,4 +1,4 @@
-class Potion extends ImageObject {
+class Potion extends SpriteAnimation {
     #potion = {
         type: "",
         strength: 0

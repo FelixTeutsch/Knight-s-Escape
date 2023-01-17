@@ -1,4 +1,4 @@
-class ImageObject extends GameObject {
+class SpriteAnimation extends GameObject {
     image;
     animations = {};
     columns = 0;
@@ -20,9 +20,9 @@ class ImageObject extends GameObject {
             this.isLoaded = true;
             this.columns = this.image.naturalWidth / this.dimensions.width;
             this.rows = this.image.naturalHeight / this.dimensions.height;
-        });    
+        });
     }
-   
+
     draw() {
         if (this.isLoaded) {
             this.changeFrameOfCurrentAnimation();
@@ -90,5 +90,5 @@ class ImageObject extends GameObject {
         this.currentStartFrame = this.animations[name].startFrame;
         this.currentEndFrame = this.animations[name].endFrame;
         this.currentAnimationFrame = this.animations[name].startFrame;
-    } 
+    }
 }

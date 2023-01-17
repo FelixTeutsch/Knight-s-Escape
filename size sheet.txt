@@ -1,0 +1,5 @@
+Sprite      Pixel
+32px        100px
+16px         50px
+8px          25px
+4px          12.5px ---

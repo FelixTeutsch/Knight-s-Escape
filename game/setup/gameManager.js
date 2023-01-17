@@ -21,7 +21,6 @@ class GameManager {
 		   videos "2, 3, 4, 5" (in total ~40 minutes) of the second non-mandatory
 		   video (== third video lesson)
 		*/ 
-
 		canvas.drawLayer.clearRect(0, 0, canvas.canvasHTMLElement.width, canvas.canvasHTMLElement.height);
 		for (let gameLoopState = 0; gameLoopState < 5; gameLoopState++) {
 			//gameLoopState 0 -> store positions of and update all objects 
@@ -111,6 +110,7 @@ class GameManager {
 	addGameObject(object) {
 		this.gameObjects.push(object);
 		object.gameObjectIndex = this.gameObjects.length - 1;
+		console.log(object.name, "has been added!");
 	}
 
 	setCanvas(canvas) {
