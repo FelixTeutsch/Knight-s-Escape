@@ -1,25 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="#">
+    <!-- TODO: Insert Favicon -->
     <title>Knight's Escape</title>
     <link rel="stylesheet" href="./style/main.css">
 </head>
-<body>
+
+<body oncontextmenu="return false;">
     <header>
         <h1>Knight's Escape</h1>
         <h2>A game created by Felix Teutsch</h2>
     </header>
     <main>
         <canvas id="canvas" width="1280" height="720">
-        <!-- <canvas id="canvas" width="1920" height="1080"> -->
+            <!-- <canvas id="canvas" width="1920" height="1080"> -->
 
         </canvas>
     </main>
     <footer>
-       Knight's Escape is part of the FH St. Pölten Creative Code Lab 2023 and was created by Felix Teutsch
+        Knight's Escape is part of the FH St. Pölten Creative Code Lab 2023 and was created by Felix Teutsch
     </footer>
+    <!-- Scripts -->
+    <script src="./game/sprite_loader/sprite_loader.js"></script>
+
+    <script src="./game/setup/input.js"></script>
+    <script src="./game/setup/setup.js"></script>
 </body>
+
 </html>
