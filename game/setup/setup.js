@@ -2,6 +2,7 @@
 let gameManager = new GameManager();
 let canvas = new Canvas("canvas");
 let player;
+let score = 0;
 
 let testMap = [
     ["1", "t", "t", "t", "t", "t", "t", "t", "t", "t", "t", "t", "t", "t", "t", "2"],
@@ -18,15 +19,21 @@ let levelMap = [
     ["║", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "║"],
     ["║", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "║"],
     ["║", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "║"],
-    ["║", "0", "0", "0", "0", "0", "0", "0", "0", "□", "0", "0", "0", "0", "0", "║"],
+    ["║", "0", "0", "0", "0", "0", "0", "0", "0", "□", "0", "0", "c", "0", "x", "║"],
     ["║", "0", "0", "0", "0", "0", "0", "0", "□", "0", "<", "═", "┬", "═", ">", "║"],
     ["║", "0", "0", "p", "0", "0", "0", "0", "0", "0", "0", "0", "║", "0", "0", "║"],
     ["└", "═", "═", "═", "═", "═", "═", "═", "═", "═", "═", "═", "┴", "═", "═", "┘"]
 ];
 
+function increaseScore(val) {
+    score += val;
+    console.log("New Score:", val);
+}
+
 let spriteLoader = new SpriteLoader(levelMap);
+spriteLoader.loadKeys();
 spriteLoader.createLevel();
 
-player.setCurrentAnimation(0,0);
+player.setCurrentAnimation(0, 0);
 
 requestAnimationFrame(gameManager.gameLoop);

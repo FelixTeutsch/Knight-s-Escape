@@ -1,4 +1,4 @@
-class WallSprite {
+class WallHandeler {
     source = "./image/wall/wall.png";
     padding = 1;
     elements = {
@@ -264,6 +264,11 @@ class WallSprite {
     constructor() {
 
     }
+
+    getKeys() {
+        return Object.keys(this.elements);
+    }
+
     createWall(wallKey, x, y) {
         if (wallKey in this.elements) {
             let newWall = new Wall(this.elements[wallKey].spriteName,
