@@ -23,9 +23,8 @@ class SpriteImage extends GameObject {
         this.spriteSize.height = spriteHeight;
         this.spritePosition.col = col;
         this.spritePosition.row = row;
-        this.spritePosition.x = (spriteWidth + padding) * (col);
-        this.spritePosition.y = (spriteHeight + padding) * (row);
-
+        this.spritePosition.x = (spriteWidth + padding) * (col) + 1;
+        this.spritePosition.y = (spriteHeight + padding) * (row) + 1;
         this.image = new Image();
         this.image.src = src;
         this.image.addEventListener("load", () => {
@@ -44,6 +43,16 @@ class SpriteImage extends GameObject {
                 this.position.x, this.position.y, this.dimensions.height, this.dimensions.width
             );
             gameManager.canvas.drawLayer.closePath();
+            //console.log("drawn");
         }
+    }
+    changeImage(row, col, src) {
+        if (src != null)
+            this.image.src = src;
+
+        this.spritePosition.col = col;
+        this.spritePosition.row = row;
+        this.spritePosition.x = (spriteWidth + padding) * (col) + 1;
+        this.spritePosition.y = (spriteHeight + padding) * (row) + 1;
     }
 }

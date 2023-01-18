@@ -255,6 +255,11 @@ class WallSprite {
 
     }
 
+    size = {
+        width: 16,
+        height: 16
+    }
+
     createdWalls = [];
     constructor() {
 
@@ -262,12 +267,18 @@ class WallSprite {
     createWall(wallKey, x, y) {
         if (wallKey in this.elements) {
             let newWall = new Wall(this.elements[wallKey].spriteName,
-                x, y, 50, 50, this.source,
+                x, y, this.size.width, this.size.height, this.source,
                 this.elements[wallKey].position.x, this.elements[wallKey].position.y, 16, 16, 1);
+            //console.log(this.elements[wallKey].position.y);
             this.createdWalls.push([newWall]);
             return newWall;
         }
         return false;
     }
-
+    getWidth() {
+        return this.size.width;
+    }
+    getHeight() {
+        return this.size.height;
+    }
 }

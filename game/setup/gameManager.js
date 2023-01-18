@@ -110,7 +110,7 @@ class GameManager {
 	addGameObject(object) {
 		this.gameObjects.push(object);
 		object.gameObjectIndex = this.gameObjects.length - 1;
-		console.log(object.name, "has been added!");
+		//console.log(object.name, "has been added!");
 	}
 
 	setCanvas(canvas) {

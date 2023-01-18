@@ -53,12 +53,7 @@ class SpriteLoader {
             for (let x = 0; x < this.levelMap[0].length; x++) {
                 let currentKey = this.levelMap[y][x];
                 if (currentKey in this.#wall) {
-                    // new Wall(
-                    //     this.#wall[currentKey], x * this.#elementSize,
-                    //     y * this.#elementSize, this.#elementSize,
-                    //     this.#elementSize, currentKey, "./image/wall/wall.png");
-
-                    this.wallSprite.createWall(currentKey, x*50, y*50);
+                    this.wallSprite.createWall(currentKey, x*this.wallSprite.getWidth(), y*this.wallSprite.getHeight());
                 } else if (currentKey === this.#playerKey) {
                     player = new Player("player", x * this.#elementSize, y * this.#elementSize, this.#elementSize, this.#elementSize, currentKey, "./image/player/player.png");
                 } else if (currentKey === this.#enemyKey) {

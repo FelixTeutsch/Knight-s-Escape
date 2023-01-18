@@ -1,15 +1,15 @@
 function keyDown(event) {
-    switch (event.key) {
-        case "w": case "ArrowUp": case " ":
+    switch (event.key.toLowerCase()) {
+        case "w": case "arrowup": case " ":
             console.log("Up");
             break;
-        case "a": case "ArrowLeft":
+        case "a": case "arrowleft":
             console.log("Left");
             break;
-        case "s": case "ArrowDown":
+        case "s": case "arrowdown":
             console.log("Down");
             break;
-        case "d": case "ArrowRight":
+        case "d": case "arrowright":
             console.log("Right");
             break;
         case "shift":
@@ -45,10 +45,18 @@ function mouseDown(event) {
 
 function scrollEvent(event) {
     if (event.deltaY > 0) // Scroll forward
-        selected = ++selected % 3;
-    else // Scroll Backward
-        selected = --selected % 3;
+        selected = mod(++selected, 3);
+    else if (event.deltaY < 0)// Scroll Backward
+        selected = mod(--selected, 3);
+    else if (event.deltaX > 0)
+        selected = mod(++selected, 3);
+    else
+        selected = mod(--selected, 3);
     console.log("Item: ", selected, "selected")
+}
+
+function mod(n, m) {
+    return ((n % m) + m) % m;
 }
 
 let selected = 0;
