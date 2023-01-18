@@ -7,11 +7,11 @@ class GameManager {
 
 	constructor() {
 		window.gameManager = this;
-		window.gravityHelper =new GravityHelper();
+		window.gravityHelper = new GravityHelper();
 		// window.mouseHelper = new MouseHelper();
-		console.log("gameManager created");
+		//console.log("gameManager created");
 	}
-	
+
 	//functions
 	gameLoop() {
 		let currentTimeStamp = performance.now();
@@ -20,7 +20,7 @@ class GameManager {
 		/* new - if you want to use deltaTime, please have a look on the
 		   videos "2, 3, 4, 5" (in total ~40 minutes) of the second non-mandatory
 		   video (== third video lesson)
-		*/ 
+		*/
 		canvas.drawLayer.clearRect(0, 0, canvas.canvasHTMLElement.width, canvas.canvasHTMLElement.height);
 		for (let gameLoopState = 0; gameLoopState < 5; gameLoopState++) {
 			//gameLoopState 0 -> store positions of and update all objects 
@@ -56,7 +56,7 @@ class GameManager {
 							}
 						}
 						// mouseHelper.checkObjectMouseEvent(gameObject);
-						
+
 						//gameObject.rotate();				
 						gameObject.draw();
 						//gameObject.restoreCanvas();
@@ -71,24 +71,24 @@ class GameManager {
 	checkObjectsForCollisions(object1) {
 		for (let i = object1.gameObjectIndex + 1; i < gameManager.gameObjects.length; i++) {
 			let object2 = gameManager.gameObjects[i];
-			if(object2.isActive) {
+			if (object2.isActive) {
 				//normal collision after update
 				let collisionDetected = this.detectCollision(object1, object2);
 				if (collisionDetected) {
 					object1.onCollision(object2);
 					object2.onCollision(object1);
-				}	
+				}
 			}
 		}
 	}
-	
-	checkObjectsForGravityCollisions(object1) {	
+
+	checkObjectsForGravityCollisions(object1) {
 		for (let i = object1.gameObjectIndex + 1; i < gameManager.gameObjects.length; i++) {
 			let object2 = gameManager.gameObjects[i];
-			if(object2.isActive && object2.isRigid && object1.useGravity) {
+			if (object2.isActive && object2.isRigid && object1.useGravity) {
 				gravityHelper.checkForGravityCollision(object1, object2);
 			}
-			if(object2.isActive && object1.isRigid && object2.useGravity) {
+			if (object2.isActive && object1.isRigid && object2.useGravity) {
 				gravityHelper.checkForGravityCollision(object2, object1);
 			}
 		}
@@ -97,12 +97,12 @@ class GameManager {
 
 	detectCollision(object1, object2) {
 		//overlap on x axis
-		if(object1.boundaries.getLeftBoundary() <= object2.boundaries.getRightBoundary() &&
+		if (object1.boundaries.getLeftBoundary() <= object2.boundaries.getRightBoundary() &&
 			object1.boundaries.getRightBoundary() >= object2.boundaries.getLeftBoundary()) {
-					//overlap on y axis
-			if(object1.boundaries.getTopBoundary() <= object2.boundaries.getBottomBoundary() &&
+			//overlap on y axis
+			if (object1.boundaries.getTopBoundary() <= object2.boundaries.getBottomBoundary() &&
 				object1.boundaries.getBottomBoundary() >= object2.boundaries.getTopBoundary()) {
-					return true;
+				return true;
 			}
 		}
 	}
@@ -118,4 +118,4 @@ class GameManager {
 	}
 
 }
-	
+

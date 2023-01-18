@@ -53,7 +53,6 @@ class GameObject {
         this.dimensions.width = width;
         this.dimensions.height = height;
         gameManager.addGameObject(this);
-        console.log("new Gameobject has been created");
     }
 
     storePosition() {

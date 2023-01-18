@@ -24,14 +24,14 @@ class SpriteImage extends GameObject {
         this.spritePosition.col = col;
         this.spritePosition.row = row;
         this.spritePosition.x = (spriteWidth + padding) * (col);
-        this.spritePosition.x = (spriteHeight + padding) * (row);
+        this.spritePosition.y = (spriteHeight + padding) * (row);
 
         this.image = new Image();
         this.image.src = src;
         this.image.addEventListener("load", () => {
             this.isLoaded = true;
             this.draw();
-            console.log("Element drawn", this.image.src)
+            console.log(`Img: ${this.image.src}, x:y ${this.spritePosition.x}:${this.spritePosition.y}, w:h ${spriteWidth}:${spriteHeight}, p: ${padding}, c:${col}`);
         });
     }
 
