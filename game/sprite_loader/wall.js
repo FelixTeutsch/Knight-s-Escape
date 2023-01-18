@@ -164,32 +164,32 @@ class WallSprite {
             }
         },
 
-        "t": {
-            spriteName: "top_connector",
+        "b": {
+            spriteName: "bottom_connector",
             position: {
                 x: 0,
                 y: 5
             }
         },
 
-        "b": {
-            spriteName: "bottom_connector",
+        "t": {
+            spriteName: "top_connector",
             position: {
                 x: 1,
                 y: 5
             }
         },
 
-        "r": {
-            spriteName: "right_connector",
+        "l": {
+            spriteName: "left_connector",
             position: {
                 x: 2,
                 y: 5
             }
         },
 
-        "l": {
-            spriteName: "left_connector",
+        "r": {
+            spriteName: "right_connector",
             position: {
                 x: 3,
                 y: 5
@@ -221,15 +221,15 @@ class WallSprite {
         },
 
 
-        "0": {
+        "1": {
             spriteName: "top_left_corner_outside",
             position: {
-                x: 1,
+                x: 0,
                 y: 7
             }
         },
 
-        "1": {
+        "2": {
             spriteName: "top_right_corner_outside",
             position: {
                 x: 1,
@@ -237,7 +237,7 @@ class WallSprite {
             }
         },
 
-        "2": {
+        "3": {
             spriteName: "bottom_left_corner_outside",
             position: {
                 x: 2,
@@ -245,7 +245,7 @@ class WallSprite {
             }
         },
 
-        "3": {
+        "4": {
             spriteName: "bottom_right_corner_outside",
             position: {
                 x: 3,
@@ -268,7 +268,7 @@ class WallSprite {
         if (wallKey in this.elements) {
             let newWall = new Wall(this.elements[wallKey].spriteName,
                 x, y, this.size.width, this.size.height, this.source,
-                this.elements[wallKey].position.x, this.elements[wallKey].position.y, 16, 16, 1);
+                this.elements[wallKey].position.y, this.elements[wallKey].position.x, 16, 16);
             //console.log(this.elements[wallKey].position.y);
             this.createdWalls.push([newWall]);
             return newWall;

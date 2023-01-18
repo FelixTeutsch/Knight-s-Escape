@@ -1,4 +1,13 @@
+let keyPressing = {
+
+}
+
+let selected = 0;
+
 function keyDown(event) {
+    if (keyPressing[event.key])
+        return;
+    keyPressing[event.key] = true;
     switch (event.key.toLowerCase()) {
         case "w": case "arrowup": case " ":
             console.log("Up");
@@ -24,6 +33,7 @@ function keyDown(event) {
 }
 
 function keyUp(event) {
+    keyPressing[event.key] = false;
     switch (event.key) {
 
     }
@@ -52,14 +62,15 @@ function scrollEvent(event) {
         selected = mod(++selected, 3);
     else
         selected = mod(--selected, 3);
-    console.log("Item: ", selected, "selected")
+
+    player.selectNewWeapon(selected);
+    //console.log("Item: ", selected, "selected")
 }
 
 function mod(n, m) {
     return ((n % m) + m) % m;
 }
 
-let selected = 0;
 
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);

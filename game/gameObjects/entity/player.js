@@ -1,17 +1,27 @@
 class Player extends SpriteAnimation {
     moveBy = {
-	    "left": 0,
-	    "top": 0
+        "left": 0,
+        "top": 0
     };
 
     moveVelocity = 2;
     startJump = false;
+
+    selectedWeapon = 0;
+
+    weapons = [];
 
     constructor(name, x, y, width, height, src) {
         super(name, x, y, width, height, src);
         console.log("PlayerFigure has been created");
         this.useGravity = true;
         this.mass = .6;
+
+        this.weapons.push(new Sword());
+        this.weapons.push(new Bow());
+        this.weapons.push(new Shield());
+        let temp = this.weapons[this.selectedWeapon];
+        temp.selectWeapon();
     }
 
     update() {
@@ -24,7 +34,7 @@ class Player extends SpriteAnimation {
             this.startJump = false;
         }
     }
-    
+
     checkWorldPostion() {
         if (this.boundaries.getBottomBoundary() <= gameManager.canvas.canvasBoundaries.top) {
             this.position.y = gameManager.canvas.canvasBoundaries.bottom;
@@ -52,7 +62,15 @@ class Player extends SpriteAnimation {
         gameManager.canvas.drawLayer.closePath();   
     }*/
 
-  
-      
+    selectNewWeapon(newWeapon) {
+        let temp = this.weapons[this.selectedWeapon];
+        temp.deselectWeapon();
+        this.selectedWeapon = newWeapon;
+
+        temp = this.weapons[this.selectedWeapon];
+        temp.selectWeapon();
+    }
+
+
 
 }

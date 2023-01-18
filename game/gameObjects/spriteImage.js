@@ -2,7 +2,6 @@ class SpriteImage extends GameObject {
     image;
     isLoaded = false;
 
-    padding = 0;
     source = "";
     spriteSize = {
         width: 0,
@@ -15,22 +14,20 @@ class SpriteImage extends GameObject {
         y: 0
     }
 
-    constructor(name, x, y, width, height, src, row, col, spriteWidth, spriteHeight, padding) {
+    constructor(name, x, y, width, height, src, row, col, spriteWidth, spriteHeight) {
         super(name, x, y, width, height);
-
-        this.padding = padding;
         this.spriteSize.width = spriteWidth;
         this.spriteSize.height = spriteHeight;
         this.spritePosition.col = col;
         this.spritePosition.row = row;
-        this.spritePosition.x = (spriteWidth + padding) * (col) + 1;
-        this.spritePosition.y = (spriteHeight + padding) * (row) + 1;
+        this.spritePosition.x = spriteWidth * col;
+        this.spritePosition.y = spriteHeight * row;
         this.image = new Image();
         this.image.src = src;
         this.image.addEventListener("load", () => {
             this.isLoaded = true;
             this.draw();
-            console.log(`Img: ${this.image.src}, x:y ${this.spritePosition.x}:${this.spritePosition.y}, w:h ${spriteWidth}:${spriteHeight}, p: ${padding}, c:${col}`);
+            //console.log(`Img: ${this.image.src}, x:y ${this.spritePosition.x}:${this.spritePosition.y}, w:h ${spriteWidth}:${spriteHeight}, p: ${padding}, c:${col}`);
         });
     }
 
@@ -46,13 +43,13 @@ class SpriteImage extends GameObject {
             //console.log("drawn");
         }
     }
-    changeImage(row, col, src) {
-        if (src != null)
-            this.image.src = src;
+    changeImage(row, col) {
+        /*if (!(src === ""))
+            this.image.src = src;*/
 
         this.spritePosition.col = col;
         this.spritePosition.row = row;
-        this.spritePosition.x = (spriteWidth + padding) * (col) + 1;
-        this.spritePosition.y = (spriteHeight + padding) * (row) + 1;
+        this.spritePosition.x = (this.spriteSize.width) * (col);
+        this.spritePosition.y = (this.spriteSize.height) * (row);
     }
 }
