@@ -84,7 +84,7 @@ class WallSprite {
             }
         },
 
-        "┘": {
+        "└": {
             spriteName: "bottom_left_corner_double",
             position: {
                 x: 2,
@@ -92,7 +92,7 @@ class WallSprite {
             }
         },
 
-        "└": {
+        "┘": {
             spriteName: "bottom_right_corner_double",
             position: {
                 x: 3,
