@@ -1,7 +1,7 @@
 class Player extends SpriteAnimation {
-    moveBy = {
-        "left": 0,
-        "top": 0
+    move = {
+        horizontal: 0,
+        vertical: 0
     };
 
     moveVelocity = 2;
@@ -25,8 +25,8 @@ class Player extends SpriteAnimation {
     }
 
     update() {
-        this.position.x += this.moveBy.left;
-        this.position.y += this.moveBy.top;
+        this.position.x += this.move.horizontal;
+        this.position.y += this.move.vertical;
         this.checkWorldPostion();
 
         if (this.startJump) {

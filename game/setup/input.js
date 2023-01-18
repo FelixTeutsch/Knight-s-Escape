@@ -10,19 +10,45 @@ function keyDown(event) {
     keyPressing[event.key] = true;
     switch (event.key.toLowerCase()) {
         case "w": case "arrowup": case " ":
-            console.log("Up");
-            break;
-        case "a": case "arrowleft":
-            console.log("Left");
+            if (player.isFalling || player.antiGravityForce > 0) {
+                keyPressing[event.key] = false;
+                return;
+            }
+
+            player.startJump = true;
+
+            //player.move.vertical = 1;
+            console.log("Jump");
             break;
         case "s": case "arrowdown":
-            console.log("Down");
+            player.move.vertical = -1;
+            console.log("Duck");
+            break;
+
+
+        case "a": case "arrowleft":
+
+            if (player.move.vertical != 0 || player.move.horizontal != 0) {
+                keyPressing[event.key] = false;
+                return;
+            }
+            player.move.vertical = 0;
+            player.move.horizontal = -player.moveVelocity;
+
+            console.log("Left");
             break;
         case "d": case "arrowright":
+            if (player.move.vertical != 0 || player.move.horizontal != 0) {
+                keyPressing[event.key] = false;
+                return;
+            }
+            player.move.horizontal = player.moveVelocity;
+            player.move.vertical = 0;
+
             console.log("Right");
             break;
         case "shift":
-            console.log("Shift");
+            console.log("Dash");
             break;
         case "e": case "0":
             console.log("Pick Up / Use");
@@ -36,19 +62,48 @@ function keyUp(event) {
     keyPressing[event.key] = false;
     switch (event.key) {
 
+        case "w": case "arrowup": case " ":
+
+            console.log("Jump");
+            break;
+        case "s": case "arrowdown":
+            player.move.vertical = 0;
+            console.log("Duck");
+            break;
+
+
+        case "a": case "arrowleft":
+            player.move.horizontal = 0;
+
+            console.log("Left");
+            break;
+        case "d": case "arrowright":
+            player.move.horizontal = 0;
+
+            console.log("Right");
+            player.move.horizontal = 0;
+            break;
+        case "shift":
+            console.log("Dash");
+            break;
+        case "e": case "0":
+            console.log("Pick Up / Use");
+            break;
+
+
     }
 }
 
 function mouseDown(event) {
     switch (event.button) {
         case 0:
-            console.log("Left Click");
+            console.log("Primary Attack");
             break;
         case 1:
             console.log("Middle Click");
             break;
         case 2:
-            console.log("Right Click");
+            console.log("Bonus Attack");
             break;
     }
 }

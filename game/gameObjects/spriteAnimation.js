@@ -16,14 +16,22 @@ class SpriteAnimation extends GameObject {
         super(name, x, y, width, height);
         this.image = new Image();
         this.image.src = src;
+        console.log("Loading Player",this.image.src );
         this.image.addEventListener("load", () => {
             this.isLoaded = true;
+            console.log("Is loaded:"+this.image.src)
             this.columns = this.image.naturalWidth / this.dimensions.width;
             this.rows = this.image.naturalHeight / this.dimensions.height;
+            console.log("row:",this.rows,"col:",this.columns);
         });
     }
 
     draw() {
+        gameManager.canvas.drawLayer.beginPath();
+        gameManager.canvas.drawLayer.strokeStyle = "#000000";
+        gameManager.canvas.drawLayer.rect(this.position.x, this.position.y, this.dimensions.width, this.dimensions.height);
+        gameManager.canvas.drawLayer.stroke();
+        gameManager.canvas.drawLayer.closePath();
         if (this.isLoaded) {
             this.changeFrameOfCurrentAnimation();
             gameManager.canvas.drawLayer.beginPath();
