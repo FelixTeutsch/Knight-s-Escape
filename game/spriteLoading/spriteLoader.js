@@ -31,9 +31,9 @@ class SpriteLoader {
 
                 } else if (currentKey === this.#playerKey) {
                     player = new Player("player", x * this.#elementSize, y * this.#elementSize, 32, 32, "./image/entity/player/player.png");
-
                 } else if (currentKey === this.#enemyKey) {
-                    new Enemy("enemy", x * this.#elementSize, y * this.#elementSize, this.#elementSize, this.#elementSize, currentKey, "./image/enemy/enemy.png");
+                    // new Enemy("enemy", x * this.#elementSize, y * this.#elementSize, this.#elementSize, this.#elementSize, currentKey, "./image/enemy/enemy.png");
+                    new Enemy("enemy", x * this.#elementSize, y * this.#elementSize, 32, 32, "./image/entity/player/player.png");
                 } else if (currentKey === this.#coinKey) {
                     new Money("coin", x * this.#elementSize, y * this.#elementSize, 16, 16, "coin", this.getRandomInt(1,5)); //assign random coin value
                 }else if (currentKey === this.#rubyKey) {

@@ -74,7 +74,7 @@ class Player extends SpriteAnimation {
         this.checkWorldPostion();
 
         if (this.movement.startJump) {
-            this.addAntiGravityForce(300);
+            this.addAntiGravityForce(45); // og 300 - too much
             this.movement.startJump = false;
         }
         if (this.health.changed) {
@@ -105,6 +105,7 @@ class Player extends SpriteAnimation {
             if (enemy.attack.isAttacking == true) {
                 let dmg = enemy.hitAttack();
                 this.takeDamage(dmg);
+                this.restorePosition();
             }
         } else if (otherObject.name === "wall") {
             this.movement.dashCooldown = 0;
@@ -141,6 +142,8 @@ class Player extends SpriteAnimation {
         } else {
             this.health.bonusHP -= damage;
         }
+        if (this.health.currentHp < 0)
+            this.health.currentHp = 0;
         this.health.changed = true;
         return this.health.currentHp;
     }
@@ -207,7 +210,7 @@ class Player extends SpriteAnimation {
         if ((this.isFalling || this.antiGravityForce > 0) && this.jumps <= 0) {
             return false;
         }
-        if (!this.isFalling || this.antiGravityForce < 0)
+        if (!this.isFalling && this.antiGravityForce < 0)
             this.jumps = 2;
         this.jumps--;
         this.movement.startJump = true;

@@ -34,7 +34,7 @@ class GravityHelper {
         }
         else {
             object.antiGravityForce -= this.gravityFactor * multiplier * object.mass;
-            object.position.y -= this.gravityFactor * multiplier * object.mass;
+            object.position.y -= this.gravityFactor * multiplier * object.mass * object.antiGravityForce/15;
         }
     }
 

@@ -10,8 +10,8 @@ class GameObject {
     //rotation = 0;
 
     position =  {
-        "x": 20,
-        "y": 20
+        x: 20,
+        y: 20
     };
 
     prevPosition =  {
