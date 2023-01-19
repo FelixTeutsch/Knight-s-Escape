@@ -27,7 +27,7 @@ class SpriteImage extends GameObject {
         this.image.addEventListener("load", () => {
             this.isLoaded = true;
             this.draw();
-            //console.log(`Img: ${this.image.src}, x:y ${this.spritePosition.x}:${this.spritePosition.y}, w:h ${spriteWidth}:${spriteHeight}, p: ${padding}, c:${col}`);
+            //LOGGER.log(`Img: ${this.image.src}, x:y ${this.spritePosition.x}:${this.spritePosition.y}, w:h ${spriteWidth}:${spriteHeight}, p: ${padding}, c:${col}`);
         });
     }
 
@@ -40,7 +40,7 @@ class SpriteImage extends GameObject {
                 this.position.x, this.position.y, this.dimensions.height, this.dimensions.width
             );
             gameManager.canvas.drawLayer.closePath();
-            //console.log("drawn");
+            //LOGGER.log("drawn");
         }
     }
     changeImage(row, col) {

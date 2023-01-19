@@ -13,7 +13,7 @@ class Money extends SpriteImage {
     onCollision(otherObject) {
         if (otherObject.name == "player") {
             this.isActive = false;
-            console.log("Player just collected a",this.#money.type,"for",this.#money.value);
+            LOGGER.log("Player just collected a",this.#money.type,"for",this.#money.value);
             increaseScore(this.#money.value);
             // TODO: Add Money to Player
         }

@@ -19,7 +19,7 @@ class SpriteLoader {
     loadKeys() {
         // Load wall keys
         this.#wallKey = this.wallHandeler.getKeys();
-        console.log(this.#wallKey);
+        LOGGER.log(this.#wallKey);
     }
 
     createLevel() {

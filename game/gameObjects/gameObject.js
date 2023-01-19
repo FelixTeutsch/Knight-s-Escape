@@ -53,7 +53,7 @@ class GameObject {
         this.dimensions.width = width;
         this.dimensions.height = height;
         gameManager.addGameObject(this);
-        //console.log(`x:y ${this.position.x}:${this.position.y}`);
+        //LOGGER.log(`x:y ${this.position.x}:${this.position.y}`);
     }
 
     storePosition() {

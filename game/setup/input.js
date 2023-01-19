@@ -7,89 +7,67 @@ let selected = 0;
 function keyDown(event) {
     if (keyPressing[event.key])
         return;
-    keyPressing[event.key] = true;
     switch (event.key.toLowerCase()) {
         case "w": case "arrowup": case " ":
-            if (player.isFalling || player.antiGravityForce > 0) {
-                keyPressing[event.key] = false;
-                return;
-            }
-
-            player.startJump = true;
-
-            //player.move.vertical = 1;
-            console.log("Jump");
+            keyPressing[event.key] = player.jump();
+            LOGGER.log("Jump");
             break;
+
         case "s": case "arrowdown":
-            player.move.vertical = -1;
-            console.log("Duck");
+            keyPressing[event.key] = player.crouch(true);
+            LOGGER.log("Crouch");
             break;
-
 
         case "a": case "arrowleft":
-
-            if (player.move.vertical != 0 || player.move.horizontal != 0) {
-                keyPressing[event.key] = false;
-                return;
-            }
-            player.move.vertical = 0;
-            player.move.horizontal = -player.moveVelocity;
-
-            console.log("Left");
+            keyPressing[event.key] = player.walkLeft(true);
+            LOGGER.log("Left");
             break;
-        case "d": case "arrowright":
-            if (player.move.vertical != 0 || player.move.horizontal != 0) {
-                keyPressing[event.key] = false;
-                return;
-            }
-            player.move.horizontal = player.moveVelocity;
-            player.move.vertical = 0;
 
-            console.log("Right");
+        case "d": case "arrowright":
+            keyPressing[event.key] = player.walkRight(true);
+            LOGGER.log("Right");
             break;
         case "shift":
-            console.log("Dash");
+            keyPressing[event.key] = player.dash();
+            LOGGER.log("Dash");
             break;
         case "e": case "0":
-            console.log("Pick Up / Use");
+            LOGGER.log("Pick Up / Use");
             break;
         default:
-            console.log(event.key);
+            LOGGER.log(event.key);
     }
 }
 
 function keyUp(event) {
     keyPressing[event.key] = false;
     switch (event.key) {
-
         case "w": case "arrowup": case " ":
-
-            console.log("Jump");
+            //keyPressing[event.key] = player.jump(false);
             break;
+
         case "s": case "arrowdown":
-            player.move.vertical = 0;
-            console.log("Duck");
+            keyPressing[event.key] = player.crouch(false);
             break;
-
 
         case "a": case "arrowleft":
-            player.move.horizontal = 0;
-
-            console.log("Left");
+            keyPressing[event.key] = player.walkLeft(false);
             break;
+
         case "d": case "arrowright":
-            player.move.horizontal = 0;
-
-            console.log("Right");
-            player.move.horizontal = 0;
+            keyPressing[event.key] = player.walkRight(false);
             break;
-        case "shift":
-            console.log("Dash");
-            break;
-        case "e": case "0":
-            console.log("Pick Up / Use");
-            break;
-
+        /*
+                case "shift":
+                    keyPressing[event.key] = player.dash(true);
+                    LOGGER.log("Dash");
+                    break;
+        
+                case "e": case "0":
+        
+                    LOGGER.log("Pick Up / Use");
+                    break;
+        */
 
     }
 }
@@ -97,13 +75,13 @@ function keyUp(event) {
 function mouseDown(event) {
     switch (event.button) {
         case 0:
-            console.log("Primary Attack");
+            LOGGER.log("Primary Attack");
             break;
         case 1:
-            console.log("Middle Click");
+            LOGGER.log("Middle Click");
             break;
         case 2:
-            console.log("Bonus Attack");
+            LOGGER.log("Bonus Attack");
             break;
     }
 }
@@ -119,7 +97,7 @@ function scrollEvent(event) {
         selected = mod(--selected, 3);
 
     player.selectNewWeapon(selected);
-    //console.log("Item: ", selected, "selected")
+    //LOGGER.log("Item: ", selected, "selected")
 }
 
 function mod(n, m) {
@@ -127,8 +105,8 @@ function mod(n, m) {
 }
 
 
-window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
+window.addEventListener("keydown", keyDown);
 window.addEventListener("mousedown", mouseDown);
 window.addEventListener("wheel", scrollEvent);
-console.log("Input handeling was Activated");
+LOGGER.log("Input handeling was Activated");

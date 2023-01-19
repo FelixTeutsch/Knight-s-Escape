@@ -271,10 +271,10 @@ class WallHandeler {
 
     createWall(wallKey, x, y) {
         if (wallKey in this.elements) {
-            let newWall = new Wall(this.elements[wallKey].spriteName,
+            let newWall = new Wall("wall",
                 x, y, this.size.width, this.size.height, this.source,
                 this.elements[wallKey].position.y, this.elements[wallKey].position.x, 16, 16);
-            //console.log(this.elements[wallKey].position.y);
+            //LOGGER.log(this.elements[wallKey].position.y);
             this.createdWalls.push([newWall]);
             return newWall;
         }

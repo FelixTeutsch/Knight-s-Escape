@@ -9,7 +9,7 @@ class GameManager {
 		window.gameManager = this;
 		window.gravityHelper = new GravityHelper();
 		// window.mouseHelper = new MouseHelper();
-		//console.log("gameManager created");
+		//LOGGER.log("gameManager created");
 	}
 
 	//functions
@@ -110,7 +110,7 @@ class GameManager {
 	addGameObject(object) {
 		this.gameObjects.push(object);
 		object.gameObjectIndex = this.gameObjects.length - 1;
-		//console.log(object.name, "has been added!");
+		//LOGGER.log(object.name, "has been added!");
 	}
 
 	setCanvas(canvas) {
