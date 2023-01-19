@@ -1,65 +1,104 @@
-let keyPressing = {
-
-}
+let keyPressing = {}
+let keyRequest = {}
 
 let selected = 0;
 
 function keyDown(event) {
-    if (keyPressing[event.key])
+    let pressedKey = event.key.toLowerCase();
+    if (keyPressing[pressedKey])
         return;
-    switch (event.key.toLowerCase()) {
+    switch (pressedKey) {
         case "w": case "arrowup": case " ":
-            keyPressing[event.key] = player.jump();
+            if (player.jump())
+                keyPressing[pressedKey] = true;
+            else
+                keyRequest[pressedKey] = true;
             LOGGER.log("Jump");
             break;
 
         case "s": case "arrowdown":
-            keyPressing[event.key] = player.crouch(true);
+            if (player.crouch(true))
+                keyPressing[pressedKey] = true;
+            else
+                keyRequest[pressedKey] = true;
             LOGGER.log("Crouch");
             break;
 
         case "a": case "arrowleft":
-            keyPressing[event.key] = player.walkLeft(true);
+            if (player.walkLeft(true))
+                keyPressing[pressedKey] = true;
+            else
+                keyRequest[pressedKey] = true;
             LOGGER.log("Left");
             break;
 
         case "d": case "arrowright":
-            keyPressing[event.key] = player.walkRight(true);
+            if (player.walkRight(true))
+                keyPressing[pressedKey] = true;
+            else
+                keyRequest[pressedKey] = true;
             LOGGER.log("Right");
             break;
         case "shift":
-            keyPressing[event.key] = player.dash();
+            if (player.dash())
+                keyPressing[pressedKey] = true;
+            else
+                keyRequest[pressedKey] = true;
             LOGGER.log("Dash");
             break;
         case "e": case "0":
             LOGGER.log("Pick Up / Use");
             break;
         default:
-            LOGGER.log(event.key);
+            LOGGER.log(pressedKey);
     }
 }
 
 function keyUp(event) {
-    keyPressing[event.key] = false;
-    switch (event.key) {
+    let pressedKey = event.key.toLowerCase();
+    keyPressing[pressedKey] = false;
+    keyRequest[pressedKey] = false;
+    switch (pressedKey) {
         case "w": case "arrowup": case " ":
-            //keyPressing[event.key] = player.jump(false);
+            //keyPressing[pressedKey] = player.jump(false);
             break;
 
         case "s": case "arrowdown":
-            keyPressing[event.key] = player.crouch(false);
+            keyPressing[pressedKey] = player.crouch(false);
+            if (keyRequest["d"] || keyRequest["arrowright"]) {
+                keyRequest["d"] = keyRequest["arrowright"] = false;
+                player.walkRight(true);
+            } else if (keyRequest["a"] || keyRequest["arrowleft"]) {
+                keyRequest["a"] = keyRequest["arrowleft"] = false;
+                player.walkLeft(true);
+            }
             break;
 
         case "a": case "arrowleft":
-            keyPressing[event.key] = player.walkLeft(false);
+            keyPressing[pressedKey] = player.walkLeft(false);
+            keyRequest[pressedKey] = false;
+            if (keyRequest["d"] || keyRequest["arrowright"]) {
+                keyRequest["d"] = keyRequest["arrowright"] = false;
+                player.walkRight(true);
+            } else if (keyRequest["s"] || keyRequest["arrowdown"]) {
+
+                player.crouch(true);
+            }
             break;
 
         case "d": case "arrowright":
-            keyPressing[event.key] = player.walkRight(false);
+            keyPressing[pressedKey] = player.walkRight(false);
+            if (keyRequest["a"] || keyRequest["arrowleft"]) {
+                keyRequest["a"] = keyRequest["arrowleft"] = false;
+                player.walkLeft(true);
+            } else if (keyRequest["s"] || keyRequest["arrowdown"]) {
+                keyRequest["s"] = keyRequest["arrowdown"] = false;
+                player.crouch(true);
+            }
             break;
         /*
                 case "shift":
-                    keyPressing[event.key] = player.dash(true);
+                    keyPressing[pressedKey] = player.dash(true);
                     LOGGER.log("Dash");
                     break;
         

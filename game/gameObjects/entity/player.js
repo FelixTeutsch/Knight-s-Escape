@@ -21,10 +21,15 @@ class Player extends SpriteAnimation {
 
     isAttacking = false;
 
-    hp = 6;
-    bonusHP = 0;
-
-
+    health = {
+        maxHp: 0,
+        maxBonusHp: 0,
+        currentHp: 0,
+        bonusHP: 0,
+        heartSprite: [],
+        bonusHeartSprite: [],
+        changed: false
+    }
 
     constructor(name, x, y, width, height, src) {
         super(name, x, y, width, height, src);
@@ -37,6 +42,22 @@ class Player extends SpriteAnimation {
         this.weapon.weaponList.push(new Shield());
         let temp = this.weapon.weaponList[this.weapon.selectedWeapon];
         temp.selectWeapon();
+
+        // HP Setup:
+        this.health.maxHp = 5;
+        this.health.maxBonusHp = 3;
+        this.health.currentHp = this.health.maxHp;
+        this.health.bonusHP = 1;
+
+
+        for (let i = 0; i < this.health.currentHp; i++) {
+            this.health.heartSprite.push(new Heart(124 + (8 + 1) * i, 29));
+        }
+        for (let i = 0; i < this.health.bonusHP; i++) {
+            this.health.bonusHeartSprite.push(new BonusHeart(124 + (8 + 1) * this.health.maxHp + (8 + 1) * i, 29));
+        }
+
+        this.health.changed = true;
     }
 
     update() {
@@ -56,7 +77,11 @@ class Player extends SpriteAnimation {
             this.addAntiGravityForce(300);
             this.movement.startJump = false;
         }
-
+        if (this.health.changed) {
+            this.updateHeartSprites();
+            this.health.changed = false;
+            LOGGER.log("HP Updated!");
+        }
     }
 
     checkWorldPostion() {
@@ -79,15 +104,7 @@ class Player extends SpriteAnimation {
             let enemy = otherObject;
             if (enemy.attack.isAttacking == true) {
                 let dmg = enemy.hitAttack();
-                if (this.bonusHP == 0)
-                    this.hp -= dmg;
-                else if (this.bonusHP - dmg < 0) {
-                    dmg -= this.bonusHP
-                    this.bonusHP = 0;
-                    this.hp -= this.bonusHP;
-                } else {
-                    this.bonusHP -= dmg;
-                }
+                this.takeDamage(dmg);
             }
         } else if (otherObject.name === "wall") {
             this.movement.dashCooldown = 0;
@@ -113,9 +130,51 @@ class Player extends SpriteAnimation {
     }
 
 
+    // Player HP
+    takeDamage(damage) {
+        if (this.health.bonusHP == 0)
+            this.health.currentHp -= damage;
+        else if (this.health.bonusHP - damage < 0) {
+            damage -= this.health.bonusHP
+            this.health.bonusHP = 0;
+            this.health.currentHp -= damage;
+        } else {
+            this.health.bonusHP -= damage;
+        }
+        this.health.changed = true;
+        return this.health.currentHp;
+    }
+    heal(healPoints) {
+        this.health.changed = true;
+        return this.health.currentHp = Math.min(healPoints + this.health.currentHp, this.health.maxHp);
+    }
+    bonusHP(healPoints) {
+        this.health.changed = true;
+        return this.health.bonusHP = Math.min(healPoints + this.health.bonusHP, this.health.maxBonusHp);
+    }
+
+    updateHeartSprites() {
+        for (let i = 0; i < this.health.currentHp; i++)
+            this.health.heartSprite[i].fullHeart();
+
+        for (let i = this.health.currentHp; i < this.health.maxHp; i++)
+            this.health.heartSprite[i].emptyHeart();
+
+        if (this.health.bonusHeartSprite.length > this.health.bonusHP) {
+            // Remove Access Bonus HP
+            for (let i = this.health.bonusHP; i < this.health.bonusHeartSprite.length; i++)
+                this.health.bonusHeartSprite[i].isActive = false;
+            this.health.bonusHeartSprite.splice(this.health.bonusHP);
+
+        } else if (this.health.bonusHeartSprite.length < this.health.bonusHP)
+            // Add Missing Bonus HP
+            for (let i = this.health.bonusHeartSprite.length; i < this.health.bonusHP; i++)
+                this.health.bonusHeartSprite.push(new BonusHeart(124 + (8 + 1) * this.health.maxHp + (8 + 1) * i, 29));
+    }
+
+
+
     // Player Movement
-
-
     walkLeft(start) {
         if (!start) {
             this.move.horizontal = 0;
@@ -175,10 +234,10 @@ class Player extends SpriteAnimation {
     }
 
     getHP() {
-        return this.hp;
+        return this.health.currentHp;
     }
     getBonusHP() {
-        return this.bonusHP;
+        return this.health.bonusHP;
     }
 
 }
