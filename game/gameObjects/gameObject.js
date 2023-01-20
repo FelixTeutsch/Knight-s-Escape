@@ -76,6 +76,12 @@ class GameObject {
     addAntiGravityForce(force) {
         this.antiGravityForce += force;
     }
+    getBoundaryWidth() {
+        return this.dimensions.width - this.boundaryOffsets.left + this.boundaryOffsets.right;
+    }
+    getBoundaryHeight() {
+        return this.dimensions.height - this.boundaryOffsets.top + this.boundaryOffsets.bottom;
+    }
 
     update() {
 

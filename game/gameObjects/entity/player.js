@@ -105,10 +105,11 @@ class Player extends SpriteAnimation {
             if (enemy.attack.isAttacking == true) {
                 let dmg = enemy.hitAttack();
                 this.takeDamage(dmg);
-                this.restorePosition();
             }
+            if (this.movement.dashCooldown <= 0)
+                this.restorePosition();
         } else if (otherObject.name === "wall") {
-            this.movement.dashCooldown = 0;
+            //this.movement.dashCooldown = 0;
         }
     }
     /*draw() {
@@ -207,12 +208,14 @@ class Player extends SpriteAnimation {
 
     }
     jump() {
-        if ((this.isFalling || this.antiGravityForce > 0) && this.jumps <= 0) {
+        if ((this.isFalling || this.antiGravityForce > 0) && this.movement.jumps <= 0) {
+            if (this.movement.jumps == 2)
+                this.movement.jumps = 1;
             return false;
         }
         if (!this.isFalling && this.antiGravityForce < 0)
-            this.jumps = 2;
-        this.jumps--;
+            this.movement.jumps = 2;
+        this.movement.jumps--;
         this.movement.startJump = true;
         return true;
     }

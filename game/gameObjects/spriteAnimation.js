@@ -12,31 +12,63 @@ class SpriteAnimation extends GameObject {
     animationDurationPerFrame = 5;
     currentAnimationFrameDuration = 0;
 
+    entityHP = {
+        show: false,
+        max: 0,
+        current: 0,
+
+        hpWidth: this.dimensions.width * .75,
+        hpStart: this.dimensions.width * .25,
+        currentHpWidth: 0
+    };
+
     constructor(name, x, y, width, height, src) {
         super(name, x, y, width, height);
         this.image = new Image();
         this.image.src = src;
-        LOGGER.log("Loading Player",this.image.src );
+        LOGGER.log(width, height);
         this.image.addEventListener("load", () => {
             this.isLoaded = true;
-            LOGGER.log("Is loaded:"+this.image.src)
+            LOGGER.log("Is loaded:" + this.image.src)
             this.columns = this.image.naturalWidth / this.dimensions.width;
             this.rows = this.image.naturalHeight / this.dimensions.height;
-            LOGGER.log("row:",this.rows,"col:",this.columns);
+            LOGGER.log("row:", this.rows, "col:", this.columns);
         });
+        this.boundaryOffsets.bottom = -1;
+        this.boundaryOffsets.top = 1;
+        this.boundaryOffsets.right = -1;
+        this.boundaryOffsets.left = 1;
     }
 
     draw() {
         gameManager.canvas.drawLayer.beginPath();
-        gameManager.canvas.drawLayer.strokeStyle = "#000000";
+        gameManager.canvas.drawLayer.strokeStyle = "#FFFFFF";
         gameManager.canvas.drawLayer.lineWidth = 1;
-        gameManager.canvas.drawLayer.rect(this.position.x, this.position.y, this.dimensions.width, this.dimensions.height);
+        gameManager.canvas.drawLayer.rect(this.position.x + 1, this.position.y + 1, this.dimensions.width - 2, this.dimensions.height - 2);
         gameManager.canvas.drawLayer.stroke();
         gameManager.canvas.drawLayer.closePath();
+        if (this.entityHP.show) {
+            // Draw current HP
+            gameManager.canvas.drawLayer.beginPath();
+            gameManager.canvas.drawLayer.moveTo(this.position.x + this.entityHP.hpStart / 2, this.position.y - 3);
+            gameManager.canvas.drawLayer.strokeStyle = "tomato";
+            gameManager.canvas.drawLayer.lineTo(this.position.x + this.entityHP.hpStart / 2 + this.entityHP.currentHpWidth, this.position.y - 3);
+            gameManager.canvas.drawLayer.stroke();
+            gameManager.canvas.drawLayer.closePath();
+
+            // Draw Missing HP
+            gameManager.canvas.drawLayer.beginPath();
+            gameManager.canvas.drawLayer.moveTo(this.position.x + this.entityHP.hpStart / 2 + this.entityHP.currentHpWidth, this.position.y - 3);
+            gameManager.canvas.drawLayer.strokeStyle = "black";
+            gameManager.canvas.drawLayer.lineTo(this.position.x + this.entityHP.hpStart / 2 + this.entityHP.hpWidth, this.position.y - 3);
+            gameManager.canvas.drawLayer.stroke();
+            gameManager.canvas.drawLayer.closePath();
+
+        }
         if (this.isLoaded) {
             this.changeFrameOfCurrentAnimation();
             gameManager.canvas.drawLayer.beginPath();
-            gameManager.canvas.drawLayer.drawImage(this.image, this.currentSourceX, this.currentSourceY, this.dimensions.width, this.dimensions.height, this.position.x, this.position.y+1, this.dimensions.height, this.dimensions.width);
+            gameManager.canvas.drawLayer.drawImage(this.image, this.currentSourceX, this.currentSourceY, this.dimensions.width, this.dimensions.height, this.position.x, this.position.y, this.dimensions.width, this.dimensions.height);
             gameManager.canvas.drawLayer.closePath();
         }
     }
@@ -93,6 +125,16 @@ class SpriteAnimation extends GameObject {
         //          "endFrame": 20,
         //     }
         // }
+    }
+
+    displayHP(maxHP, currentHp) {
+        this.entityHP.show = true;
+        this.entityHP.max = maxHP;
+        this.alterHP(currentHp);
+    }
+    alterHP(newHP) {
+        this.entityHP.current = newHP;
+        this.entityHP.currentHpWidth = this.entityHP.hpWidth / this.entityHP.max * this.entityHP.current;
     }
 
     setCurrentAnimationByName(name) {

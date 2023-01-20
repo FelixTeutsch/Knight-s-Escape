@@ -8,6 +8,7 @@ class Enemy extends SpriteAnimation {
         isAttacking: false,
         isDamaging: false,
         hp: 10,
+        max: 10,
         attackPhase: {
             stage: 0,
             start: 5,
@@ -23,8 +24,13 @@ class Enemy extends SpriteAnimation {
         LOGGER.log("Enemy has been created");
         this.useGravity = true;
         this.mass = 1;
+        // Set Enemy Stats
         this.attack.hp = 15;
+        this.attack.max = 15;
         this.attack.damage = 1;
+
+        // Display Enemy Stats
+        this.displayHP(this.attack.hp, this.attack.hp);
     }
 
     update() {
@@ -33,12 +39,14 @@ class Enemy extends SpriteAnimation {
         // get distance to player
         let distanceToPlayer = Math.sqrt((Math.abs(this.position.x - player.position.x) ** 2) + (Math.abs(this.position.y - player.position.y) ** 2));
 
-        if (distanceToPlayer < this.playerFollowThreshold)
+        if (Math.abs(this.position.x - player.position.x) == 0)
+            this.move.x = 0;
+        else if (distanceToPlayer < this.playerFollowThreshold)
             if (player.position.x < this.position.x)
                 // move towards player if in range
-                this.move.x = Math.min(this.move.x, this.move.x * -1);
+                this.move.x = -1;
             else
-                this.move.x = Math.max(this.move.x, this.move.x * -1);
+                this.move.x = 1;
         if (this.attack.isAttacking && this.attack.attackCooldown <= 0) {
             if (this.attack.attackPhase.stage++ > this.attack.attackPhase.start && this.attack.attackPhase.stage < this.attack.attackPhase.end)
                 this.attack.isDamaging = true;
@@ -66,7 +74,7 @@ class Enemy extends SpriteAnimation {
     }
 
     onCollision(otherObject) {
-        if (otherObject.name == "obstacle") {
+        if (otherObject.name == "wall" || otherObject.name == "obstacle") {
             this.move.x *= -1;
             this.move.y *= -1;
         } else if (otherObject.name === "player") {
@@ -78,4 +86,9 @@ class Enemy extends SpriteAnimation {
         }
     }
 
+    getHit(dmg) {
+        this.attack.hp = Math.min(Math.max(this.attack.hp - dmg, 0), this.attack.max);
+        this.alterHP(this.attack.hp);
+        return this.attack.hp;
+    }
 }
