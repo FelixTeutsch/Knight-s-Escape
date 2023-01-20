@@ -105,8 +105,8 @@ class Player extends SpriteAnimation {
             if (enemy.attack.isAttacking == true) {
                 let dmg = enemy.hitAttack();
                 this.takeDamage(dmg);
-                this.restorePosition();
             }
+            this.restorePosition();
         } else if (otherObject.name === "wall") {
             this.movement.dashCooldown = 0;
         }
