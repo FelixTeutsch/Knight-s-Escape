@@ -5,7 +5,10 @@ class Obstacle extends SpriteImage {
     }
 
     onCollision(otherObject) {
-        if (otherObject.name == "player" || otherObject.name == "enemy") {
+        if (otherObject.name == "player") {
+            if (player.movement.dashCooldown < 0)
+                otherObject.restorePosition();
+        } else if (otherObject.name == "enemy") {
             otherObject.restorePosition();
         }
     }
