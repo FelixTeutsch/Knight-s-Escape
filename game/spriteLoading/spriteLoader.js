@@ -14,6 +14,8 @@ class SpriteLoader {
 
     constructor(levelMap) {
         this.levelMap = levelMap;
+        this.loadKeys();
+        this.createLevel();
     }
 
     loadKeys() {
@@ -23,6 +25,10 @@ class SpriteLoader {
     }
 
     createLevel() {
+        let c = document.getElementById("canvas");
+        c.width = this.levelMap[0].length * this.#elementSize;
+        c.height = this.levelMap.length * this.#elementSize;
+        console.log(c.width, c.width);
         for (let y = 0; y < this.levelMap.length; y++) {
             for (let x = 0; x < this.levelMap[0].length; x++) {
                 let currentKey = this.levelMap[y][x];
@@ -52,5 +58,6 @@ class SpriteLoader {
 
     setLevelMap(levelMap) {
         this.levelMap = levelMap;
+        this.createLevel();
     }
 }

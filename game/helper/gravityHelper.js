@@ -30,11 +30,14 @@ class GravityHelper {
             multiplier = -1;
         }
         if (moveDown) {
-            object.position.y += this.gravityFactor * multiplier * object.mass;
+            object.position.y += gameManager.getTimeAdjustedValue(this.gravityFactor * multiplier * object.mass);
         }
         else {
-            object.antiGravityForce -= this.gravityFactor * multiplier * object.mass;
-            object.position.y -= this.gravityFactor * multiplier * object.mass * object.antiGravityForce/15;
+            // object.antiGravityForce -= this.gravityFactor * multiplier * object.mass;
+            // object.position.y -= this.gravityFactor * multiplier * object.mass;
+            console.log("Move Up");
+            object.antiGravityForce -= gameManager.getTimeAdjustedValue(this.gravityFactor / 2.1* multiplier * object.mass);
+            object.position.y -= object.antiGravityForce;
         }
     }
 

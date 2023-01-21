@@ -122,7 +122,7 @@ class GameManager {
 	}
 
 	getTimeAdjustedValue(value) {
-		return value / (1000 / 60) * (gameManager.deltaTime);
+		return value / (1000 / 30) * (gameManager.deltaTime);
 	}
 
 }

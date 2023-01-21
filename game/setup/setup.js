@@ -5,7 +5,7 @@ let player;
 let enemy;
 let score = 0;
 
-let LOGGER = new Logger(true);
+let LOGGER = new Logger(false);
 
 let testMap = [
     ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"],
@@ -19,8 +19,8 @@ let testMap = [
     ["l", "0", "0", "0", "0", "0", "0", "┌", "b", "b", "b", "b", "b", "b", "b", "r"],
     ["l", "0", "0", "0", "0", "0", "0", "r", "1", "t", "t", "t", "t", "t", "t", "r"],
     ["l", "0", "0", "0", "0", "0", "0", "r", "l", "0", "0", "0", "0", "0", "0", "r"],
-    ["l", "0", "0", "0", "0", "0", "0", "r", "l", "0", "0", "0", "e", "0", "0", "r"],
-    ["l", "0", "0", "p", "0", "0", "0", "r", "l", "0", "0", "0", "0", "0", "0", "r"],
+    ["l", "0", "0", "p", "0", "0", "0", "r", "l", "0", "0", "0", "e", "0", "0", "r"],
+    ["l", "0", "0", "", "0", "0", "0", "r", "l", "0", "0", "0", "0", "0", "0", "r"],
     ["3", "b", "b", "b", "b", "b", "b", "4", "3", "b", "b", "b", "b", "b", "b", "4"]
 ];
 let levelMap = [
@@ -40,8 +40,6 @@ function increaseScore(val) {
 }
 
 let spriteLoader = new SpriteLoader(testMap);
-spriteLoader.loadKeys();
-spriteLoader.createLevel();
 
 player.setCurrentAnimation(0, 0);
 

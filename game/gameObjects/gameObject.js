@@ -64,6 +64,8 @@ class GameObject {
     restorePosition() {
         this.position.x = this.prevPosition.x;
         this.position.y = this.prevPosition.y;
+        if(this.name == "player")
+        console.log("Position restored: ",this.position.x, this.position.y);
     }
     
     setBoundaryOffsets(left, right, top, bottom) {

@@ -28,4 +28,7 @@ class Entity extends SpriteAnimation {
         this.alterHP(this.health.currentHP);
         return this.health.currentHP;
     }
+    heal(hp) {
+
+    }
 }

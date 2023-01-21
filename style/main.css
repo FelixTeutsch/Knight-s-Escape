@@ -51,17 +51,26 @@ main {
     padding: 1rem;
 }
 
-canvas {
-    position: static;
+.gameContainer {
+    width: 1600;
+    height: 500px;
+    aspect-ratio: 9/16;
+    position: absolute;
+}
+
+.gameElement {
+    width: 250%;
+    height: 250%;
+    position: relative;
+    bottom: 0;
+    left: 0;
+}
+
+#background {
     background-color: var(--Comment);
-    box-shadow: 0 0 20px var(--Shadow);
-    max-height: 100%;
-    max-width: 100%;
-    height: 73vh;
-    width: auto;
-    /* aspect-ratio: 2/1; */
-    aspect-ratio: 1/1;
-    border-radius: 1rem;
+}
+
+#canvas {
 
 
     image-rendering: optimizeSpeed;

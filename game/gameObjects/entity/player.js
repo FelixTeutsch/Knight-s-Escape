@@ -51,6 +51,8 @@ class Player extends Entity {
     update() {
         if (this.movement.dashCooldown-- > 0) {
             this.position.x += gameManager.getTimeAdjustedValue(this.movement.moveVelocity * this.movement.directionFacing * 2);
+            this.position.x = Math.round(this.position.x * 10) / 10;
+            LOGGER.log(this.position.y, this.position.x);
             //LOGGER.log(this.movement.dashCooldown);
         } else {
             this.position.x += gameManager.getTimeAdjustedValue(this.move.x);
@@ -59,7 +61,10 @@ class Player extends Entity {
         this.checkWorldPostion();
 
         if (this.movement.startJump) {
-            this.addAntiGravityForce(45); // og 300 - too much
+            if (this.movement.jumps == 1)
+                this.addAntiGravityForce(16);
+            if (this.movement.jumps == 0)
+                this.addAntiGravityForce(8);
             this.movement.startJump = false;
         }
         if (this.health.changed) {
@@ -95,10 +100,13 @@ class Player extends Entity {
                 let dmg = enemy.hitAttack();
                 this.takeDamage(dmg);
             }
-            if (this.movement.dashCooldown <= 0)
+            if (this.position.x < otherObject.position.x && this.movement.directionFacing > 0 ||
+                this.position.x > otherObject.position.x && this.movement.directionFacing < 0)
                 this.restorePosition();
+            // if (this.movement.dashCooldown <= 0)
+            // // fix this
+            //     this.position.x += this.movement.directionFacing * (this.getBoundaryWidth() + otherObject.getBoundaryWidth());
         } else if (otherObject.name === "wall") {
-            //this.movement.dashCooldown = 0;
         }
     }
     /*draw() {
@@ -137,7 +145,7 @@ class Player extends Entity {
         this.health.changed = true;
         return this.health.currentHp;
     }
-    heal(healPoints) {
+    heal(hp) {
         this.health.changed = true;
         return this.health.currentHp = Math.min(healPoints + this.health.currentHp, this.health.maxHp);
     }
@@ -196,13 +204,15 @@ class Player extends Entity {
         this.move.x = this.movement.moveVelocity;
 
     }
+
     jump() {
         if ((this.isFalling || this.antiGravityForce > 0) && this.movement.jumps <= 0) {
             if (this.movement.jumps == 2)
                 this.movement.jumps = 1;
-            return false;
+            else
+                return false;
         }
-        if (!this.isFalling && this.antiGravityForce < 0)
+        if (!this.isFalling && this.antiGravityForce <= 0)
             this.movement.jumps = 2;
         this.movement.jumps--;
         this.movement.startJump = true;
