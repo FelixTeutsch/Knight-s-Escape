@@ -44,7 +44,7 @@ class WallHandeler {
             }
         },
 
-        "╗": {
+        "┐": {
             spriteName: "top_right_corner_inside",
             position: {
                 x: 1,
@@ -52,7 +52,7 @@ class WallHandeler {
             }
         },
 
-        "╝": {
+        "└": {
             spriteName: "bottom_left_corner_inside",
             position: {
                 x: 2,
@@ -60,7 +60,7 @@ class WallHandeler {
             }
         },
 
-        "╚": {
+        "┘": {
             spriteName: "bottom_right_corner_inside",
             position: {
                 x: 3,
@@ -76,7 +76,7 @@ class WallHandeler {
             }
         },
 
-        "┐": {
+        "╗": {
             spriteName: "top_right_corner_double",
             position: {
                 x: 1,
@@ -84,7 +84,7 @@ class WallHandeler {
             }
         },
 
-        "└": {
+        "╝": {
             spriteName: "bottom_left_corner_double",
             position: {
                 x: 2,
@@ -92,7 +92,7 @@ class WallHandeler {
             }
         },
 
-        "┘": {
+        "╚": {
             spriteName: "bottom_right_corner_double",
             position: {
                 x: 3,

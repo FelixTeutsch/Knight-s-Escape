@@ -1,14 +1,14 @@
-class Enemy extends SpriteAnimation {
+class Enemy extends Entity {
     move = {
         x: 1,
         y: 0
     };
+
+    moveVelocity = 1;
     playerFollowThreshold = 100;
     attack = {
         isAttacking: false,
         isDamaging: false,
-        hp: 10,
-        max: 10,
         attackPhase: {
             stage: 0,
             start: 5,
@@ -25,16 +25,15 @@ class Enemy extends SpriteAnimation {
         this.useGravity = true;
         this.mass = 1;
         // Set Enemy Stats
-        this.attack.hp = 15;
-        this.attack.max = 15;
+        this.health.currentHP = 15;
+        this.health.maxHP = 15;
         this.attack.damage = 1;
 
         // Display Enemy Stats
-        this.displayHP(this.attack.hp, this.attack.hp);
+        this.displayHP(this.health.maxHP, this.health.currentHP);
     }
 
     update() {
-        let result = Math.random();
 
         // get distance to player
         let distanceToPlayer = Math.sqrt((Math.abs(this.position.x - player.position.x) ** 2) + (Math.abs(this.position.y - player.position.y) ** 2));
@@ -44,9 +43,9 @@ class Enemy extends SpriteAnimation {
         else if (distanceToPlayer < this.playerFollowThreshold)
             if (player.position.x < this.position.x)
                 // move towards player if in range
-                this.move.x = -1;
+                this.move.x = this.moveVelocity * -1;
             else
-                this.move.x = 1;
+                this.move.x = this.moveVelocity;
         if (this.attack.isAttacking && this.attack.attackCooldown <= 0) {
             if (this.attack.attackPhase.stage++ > this.attack.attackPhase.start && this.attack.attackPhase.stage < this.attack.attackPhase.end)
                 this.attack.isDamaging = true;
@@ -59,16 +58,20 @@ class Enemy extends SpriteAnimation {
                 this.attack.attackCooldown = 100;
             }
         } else {
-            this.position.x += this.move.x;
-            this.position.y += this.move.y;
+            this.position.x += gameManager.getTimeAdjustedValue(this.move.x);
+            this.position.y += gameManager.getTimeAdjustedValue(this.move.y);
         }
         this.attack.attackCooldown--;
+
+        // Round Position
+        this.position.x = Math.round(this.position.x);
+        this.position.y = Math.round(this.position.y);
     }
 
     hitAttack() {
         if (this.attack.attackCooldown >= 0 || !this.attack.isAttacking)
             return 0;
-        console.log("Enemy landed a hit...");
+        LOGGER.log("Enemy landed a hit...");
         this.attack.attackCooldown = 100;
         return this.attack.damage;
     }
@@ -84,11 +87,5 @@ class Enemy extends SpriteAnimation {
             }
             this.restorePosition();
         }
-    }
-
-    getHit(dmg) {
-        this.attack.hp = Math.min(Math.max(this.attack.hp - dmg, 0), this.attack.max);
-        this.alterHP(this.attack.hp);
-        return this.attack.hp;
     }
 }

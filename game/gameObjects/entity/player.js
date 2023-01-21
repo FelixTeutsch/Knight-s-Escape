@@ -1,14 +1,9 @@
-class Player extends SpriteAnimation {
-    move = {
-        horizontal: 0,
-        vertical: 0
-    };
+class Player extends Entity {
 
     movement = {
         directionFacing: 0,
         jumps: 2,
         dashCooldown: 0,
-        startDash: false,
         startJump: false,
         moveVelocity: 2,
         dashTimer: 0
@@ -20,16 +15,6 @@ class Player extends SpriteAnimation {
     }
 
     isAttacking = false;
-
-    health = {
-        maxHp: 0,
-        maxBonusHp: 0,
-        currentHp: 0,
-        bonusHP: 0,
-        heartSprite: [],
-        bonusHeartSprite: [],
-        changed: false
-    }
 
     constructor(name, x, y, width, height, src) {
         super(name, x, y, width, height, src);
@@ -43,12 +28,15 @@ class Player extends SpriteAnimation {
         let temp = this.weapon.weaponList[this.weapon.selectedWeapon];
         temp.selectWeapon();
 
+        this.move.x = 0;
+
         // HP Setup:
         this.health.maxHp = 5;
         this.health.maxBonusHp = 3;
         this.health.currentHp = this.health.maxHp;
         this.health.bonusHP = 1;
-
+        this.health.heartSprite = [];
+        this.health.bonusHeartSprite = [];
 
         for (let i = 0; i < this.health.currentHp; i++) {
             this.health.heartSprite.push(new Heart(124 + (8 + 1) * i, 29));
@@ -61,15 +49,12 @@ class Player extends SpriteAnimation {
     }
 
     update() {
-        if (this.movement.startDash) {
-            this.movement.startDash = false;
-        }
         if (this.movement.dashCooldown-- > 0) {
-            this.position.x += this.movement.moveVelocity * this.movement.directionFacing * 2;
-            console.log(this.movement.dashCooldown);
+            this.position.x += gameManager.getTimeAdjustedValue(this.movement.moveVelocity * this.movement.directionFacing * 2);
+            //LOGGER.log(this.movement.dashCooldown);
         } else {
-            this.position.x += this.move.horizontal;
-            this.position.y += this.move.vertical;
+            this.position.x += gameManager.getTimeAdjustedValue(this.move.x);
+            this.position.y += gameManager.getTimeAdjustedValue(this.move.y);
         }
         this.checkWorldPostion();
 
@@ -82,6 +67,10 @@ class Player extends SpriteAnimation {
             this.health.changed = false;
             LOGGER.log("HP Updated!");
         }
+
+        // ROUND POSITION
+        this.position.x = Math.round(this.position.x);
+        this.position.y = Math.round(this.position.y);
     }
 
     checkWorldPostion() {
@@ -181,30 +170,30 @@ class Player extends SpriteAnimation {
     // Player Movement
     walkLeft(start) {
         if (!start) {
-            this.move.horizontal = 0;
+            this.move.x = 0;
             return false;
         }
-        if (this.move.vertical != 0 || this.move.horizontal != 0) {
+        if (this.move.y != 0 || this.move.x != 0) {
             return false;
         }
         this.movement.directionFacing = -1;
-        this.move.vertical = 0;
-        this.move.horizontal = -this.movement.moveVelocity;
+        this.move.y = 0;
+        this.move.x = -this.movement.moveVelocity;
 
         return true;
     }
 
     walkRight(start) {
         if (!start) {
-            this.move.horizontal = 0;
+            this.move.x = 0;
             return false;
         }
-        if (this.move.vertical != 0 || this.move.horizontal != 0) {
+        if (this.move.y != 0 || this.move.x != 0) {
             return false;
         }
         this.movement.directionFacing = 1;
-        this.move.vertical = 0;
-        this.move.horizontal = this.movement.moveVelocity;
+        this.move.y = 0;
+        this.move.x = this.movement.moveVelocity;
 
     }
     jump() {
@@ -235,7 +224,6 @@ class Player extends SpriteAnimation {
         }
         LOGGER.log("Dashing");
         this.movement.dashCooldown = 10;
-        this.movement.startDash = true;
         return true;
     }
 

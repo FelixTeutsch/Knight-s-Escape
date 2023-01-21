@@ -2,8 +2,9 @@ class GameManager {
 	//properties
 	gameObjects = [];
 	canvas = null;
-	previousTimeStamp;
-	currentDeltaTime;
+	previousTimeStamp = 0;
+	deltaTime;
+	timeModyfier = 30;
 
 	constructor() {
 		window.gameManager = this;
@@ -14,8 +15,11 @@ class GameManager {
 
 	//functions
 	gameLoop() {
+		if(gameManager.previousTimeStamp == 0) {
+			gameManager.previousTimeStamp = performance.now();
+		}
 		let currentTimeStamp = performance.now();
-		gameManager.currentDeltaTime = currentTimeStamp - gameManager.previousTimeStamp;
+		gameManager.deltaTime = currentTimeStamp - gameManager.previousTimeStamp;
 		gameManager.previousTimeStamp = currentTimeStamp;
 		/* new - if you want to use deltaTime, please have a look on the
 		   videos "2, 3, 4, 5" (in total ~40 minutes) of the second non-mandatory
@@ -115,6 +119,10 @@ class GameManager {
 
 	setCanvas(canvas) {
 		this.canvas = canvas;
+	}
+
+	getTimeAdjustedValue(value) {
+		return value / (1000 / 60) * (gameManager.deltaTime);
 	}
 
 }
