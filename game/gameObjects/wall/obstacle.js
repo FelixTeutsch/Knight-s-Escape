@@ -10,7 +10,7 @@ class Obstacle extends SpriteImage {
                 otherObject.restorePosition();
             else {
                 player.position.x += player.movement.directionFacing * 16;
-                console.log("Dashed through wall!", player.position.x);
+                //console.log("Dashed through wall!", player.position.x);
             }
         } else if (otherObject.name == "enemy") {
             otherObject.restorePosition();

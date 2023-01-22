@@ -4,7 +4,6 @@ class Enemy extends Entity {
         y: 0
     };
 
-    moveVelocity = 1;
     playerFollowThreshold = 100;
     attack = {
         isAttacking: false,
@@ -43,9 +42,9 @@ class Enemy extends Entity {
         else if (distanceToPlayer < this.playerFollowThreshold)
             if (player.position.x < this.position.x)
                 // move towards player if in range
-                this.move.x = this.moveVelocity * -1;
+                this.move.x = this.move.velocity * -1;
             else
-                this.move.x = this.moveVelocity;
+                this.move.x = this.move.velocity;
         if (this.attack.isAttacking && this.attack.attackCooldown <= 0) {
             if (this.attack.attackPhase.stage++ > this.attack.attackPhase.start && this.attack.attackPhase.stage < this.attack.attackPhase.end)
                 this.attack.isDamaging = true;

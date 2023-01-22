@@ -2,7 +2,7 @@ class Entity extends SpriteAnimation {
     move = {
         x: 1,
         y: 0,
-        velocity: 1
+        velocity: 4
     };
 
     health = {

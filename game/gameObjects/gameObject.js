@@ -35,15 +35,15 @@ class GameObject {
     };
 
     boundaryOffsets = {
-        "left": 0,
-        "right": 0,
-        "top": 0,
-        "bottom": 0 
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0 
     }
 
     dimensions =  {
-        "width": 40,
-        "height": 40
+        width: 40,
+        height: 40
     };
     
     constructor(name, x, y, width, height) {
@@ -65,7 +65,7 @@ class GameObject {
         this.position.x = this.prevPosition.x;
         this.position.y = this.prevPosition.y;
         if(this.name == "player")
-        console.log("Position restored: ",this.position.x, this.position.y);
+        LOGGER.log("Position restored: ",this.position.x, this.position.y);
     }
     
     setBoundaryOffsets(left, right, top, bottom) {

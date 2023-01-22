@@ -25,10 +25,23 @@ class SpriteLoader {
     }
 
     createLevel() {
-        let c = document.getElementById("canvas");
-        c.width = this.levelMap[0].length * this.#elementSize;
-        c.height = this.levelMap.length * this.#elementSize;
-        console.log(c.width, c.width);
+        let cv = document.getElementById("canvas");
+        let bg = document.getElementById("background");
+        cv.width = this.levelMap[0].length * this.#elementSize;
+        cv.height = this.levelMap.length * this.#elementSize;
+
+        cv.style.width = this.levelMap[0].length * this.#elementSize * 2.5 + "px";
+        cv.style.height = this.levelMap.length * this.#elementSize * 2.5 + "px";
+        bg.style.width = this.levelMap[0].length * this.#elementSize * 2.5 + "px";
+        bg.style.height = this.levelMap.length * this.#elementSize * 2.5 + "px";
+
+        console.log(cv.width, cv.width);
+        let playerPosition = {
+            x: 0,
+            y: 0
+        };
+        moveLeft = new HorizontalScrolling("moveLeft", 64 * 2, 0, 16, this.levelMap[0].length * this.#elementSize, "gameView");
+        moveRight = new HorizontalScrolling("moveRight", 64 * 5, 0, 16, this.levelMap[0].length * this.#elementSize, "gameView");
         for (let y = 0; y < this.levelMap.length; y++) {
             for (let x = 0; x < this.levelMap[0].length; x++) {
                 let currentKey = this.levelMap[y][x];
@@ -36,7 +49,8 @@ class SpriteLoader {
                     this.wallHandeler.createWall(currentKey, x * this.wallHandeler.getWidth(), y * this.wallHandeler.getHeight());
 
                 } else if (currentKey === this.#playerKey) {
-                    player = new Player("player", x * this.#elementSize, y * this.#elementSize, 32, 32, "./image/entity/player/player.png");
+                    playerPosition.x = x;
+                    playerPosition.y = y;
                 } else if (currentKey === this.#enemyKey) {
                     // new Enemy("enemy", x * this.#elementSize, y * this.#elementSize, this.#elementSize, this.#elementSize, currentKey, "./image/enemy/enemy.png");
                     enemy = new Enemy("enemy", x * this.#elementSize, y * this.#elementSize, 32, 32, "./image/entity/player/player.png");
@@ -47,6 +61,10 @@ class SpriteLoader {
                 }
             }
         }
+
+        // Draw player last to ensure that he is always drawn on top of things
+        player = new Player("player", playerPosition.x * this.#elementSize, playerPosition.y * this.#elementSize, 32, 32, "./image/entity/player/player.png");
+
     }
     getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;

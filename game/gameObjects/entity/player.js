@@ -5,7 +5,6 @@ class Player extends Entity {
         jumps: 2,
         dashCooldown: 0,
         startJump: false,
-        moveVelocity: 2,
         dashTimer: 0
     }
 
@@ -50,7 +49,7 @@ class Player extends Entity {
 
     update() {
         if (this.movement.dashCooldown-- > 0) {
-            this.position.x += gameManager.getTimeAdjustedValue(this.movement.moveVelocity * this.movement.directionFacing * 2);
+            this.position.x += gameManager.getTimeAdjustedValue(this.move.velocity * this.movement.directionFacing * 2);
             this.position.x = Math.round(this.position.x * 10) / 10;
             LOGGER.log(this.position.y, this.position.x);
             //LOGGER.log(this.movement.dashCooldown);
@@ -62,7 +61,7 @@ class Player extends Entity {
 
         if (this.movement.startJump) {
             if (this.movement.jumps == 1)
-                this.addAntiGravityForce(16);
+                this.addAntiGravityForce(12);
             if (this.movement.jumps == 0)
                 this.addAntiGravityForce(8);
             this.movement.startJump = false;
@@ -186,7 +185,7 @@ class Player extends Entity {
         }
         this.movement.directionFacing = -1;
         this.move.y = 0;
-        this.move.x = -this.movement.moveVelocity;
+        this.move.x = -this.move.velocity;
 
         return true;
     }
@@ -201,7 +200,7 @@ class Player extends Entity {
         }
         this.movement.directionFacing = 1;
         this.move.y = 0;
-        this.move.x = this.movement.moveVelocity;
+        this.move.x = this.move.velocity;
 
     }
 
