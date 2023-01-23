@@ -38,10 +38,10 @@ class Player extends Entity {
         this.health.bonusHeartSprite = [];
 
         for (let i = 0; i < this.health.currentHp; i++) {
-            this.health.heartSprite.push(new Heart(124 + (8 + 1) * i, 29));
+            this.health.heartSprite.push(new Heart(104 + (8 + 1) * i, gameManager.canvas.canvasHTMLElement.height - 22));
         }
         for (let i = 0; i < this.health.bonusHP; i++) {
-            this.health.bonusHeartSprite.push(new BonusHeart(124 + (8 + 1) * this.health.maxHp + (8 + 1) * i, 29));
+            this.health.bonusHeartSprite.push(new BonusHeart(104 + (8 + 1) * this.health.maxHp + (8 + 1) * i, gameManager.canvas.canvasHTMLElement.height - 22));
         }
 
         this.health.changed = true;
@@ -169,7 +169,7 @@ class Player extends Entity {
         } else if (this.health.bonusHeartSprite.length < this.health.bonusHP)
             // Add Missing Bonus HP
             for (let i = this.health.bonusHeartSprite.length; i < this.health.bonusHP; i++)
-                this.health.bonusHeartSprite.push(new BonusHeart(124 + (8 + 1) * this.health.maxHp + (8 + 1) * i, 29));
+                this.health.bonusHeartSprite.push(new BonusHeart(104 + (8 + 1) * this.health.maxHp + (8 + 1) * i, gameManager.canvas.canvasHTMLElement.height - 22));
     }
 
 

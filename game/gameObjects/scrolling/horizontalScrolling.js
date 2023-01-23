@@ -6,7 +6,7 @@ class HorizontalScrolling extends GameObject {
     currentMarginLeft;
 
     constructor(name) {
-        super(name, 0, 0, 16,  gameManager.canvas.canvasHTMLElement.height);
+        super(name, 0, 0, 16, gameManager.canvas.canvasHTMLElement.height);
         this.gameContainer = document.getElementById("gameView");
         let currentGameContainerWidth = parseInt(this.gameContainer.clientWidth);
         let currentCanvasWidth = gameManager.canvas.canvasHTMLElement.width;
@@ -34,8 +34,8 @@ class HorizontalScrolling extends GameObject {
                 this.currentMarginLeft -= otherObject.move.x * 2.5;
                 moveLeft.currentMarginLeft = moveRight.currentMarginLeft = this.currentMarginLeft;
                 document.getElementById("canvas").style.marginLeft = this.currentMarginLeft + "px";
-                moveLeft.position.x += otherObject.move.x;
-                moveRight.position.x += otherObject.move.x;
+                moveLeft.position.x += otherObject.move.x * 1;
+                moveRight.position.x += otherObject.move.x * 1;
 
                 player.weapon["weaponList"].forEach(weapon => weapon.position.x += otherObject.move.x);
                 player.health.heartSprite.forEach(heart => heart.position.x += otherObject.move.x);
@@ -50,4 +50,4 @@ class HorizontalScrolling extends GameObject {
         gameManager.canvas.drawLayer.fill();
         gameManager.canvas.drawLayer.closePath();
     }
-}
+} 3

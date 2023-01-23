@@ -41,8 +41,6 @@ class SpriteLoader {
         };
         moveLeft = new HorizontalScrolling("moveLeft");
         moveRight = new HorizontalScrolling("moveRight");
-        moveUp = new VerticalScrolling("moveUp");
-        moveDown = new VerticalScrolling("moveDown");
 
 
         for (let y = 0; y < this.levelMap.length; y++) {
