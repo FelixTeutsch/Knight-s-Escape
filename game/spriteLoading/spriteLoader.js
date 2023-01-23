@@ -29,7 +29,7 @@ class SpriteLoader {
         let bg = document.getElementById("background");
         cv.width = this.levelMap[0].length * this.#elementSize;
         cv.height = this.levelMap.length * this.#elementSize;
-
+            console.log(cv.width);
         cv.style.width = this.levelMap[0].length * this.#elementSize * 2.5 + "px";
         cv.style.height = this.levelMap.length * this.#elementSize * 2.5 + "px";
         bg.style.width = this.levelMap[0].length * this.#elementSize * 2.5 + "px";

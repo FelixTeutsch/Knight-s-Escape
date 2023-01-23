@@ -52,12 +52,8 @@ main {
 }
 
 #gameView {
-    max-width: 90vw;
-    max-height: 73vh;
-    min-width: 100px;
-    min-height: 100px;
     width: auto;
-    height: 1080px;
+    height: 560px;
     aspect-ratio: 16/9;
     position: relative;
     overflow: hidden;

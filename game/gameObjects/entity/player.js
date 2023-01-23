@@ -10,7 +10,12 @@ class Player extends Entity {
 
     weapon = {
         weaponList: [],
-        selectedWeapon: 0
+        selectedWeapon: 0,
+        attack: {
+            isAttacking: false,
+            duration: 0,
+            stage: 0
+        }
     }
 
     isAttacking = false;
@@ -48,15 +53,19 @@ class Player extends Entity {
     }
 
     update() {
+        if (this.health.death.isDead && this.health.death.deathAnimationFrame++ >= this.health.death.deathAnimationFrameEnd) {
+            this.isActive = false;
+            gameManager.gameOver = true;
+            return;
+        }
         if (this.movement.dashCooldown-- > 0) {
-            this.position.x += gameManager.getTimeAdjustedValue(this.move.velocity * this.movement.directionFacing * 2);
-            this.position.x = Math.round(this.position.x * 10) / 10;
+            this.move.x = gameManager.getTimeAdjustedValue(this.move.velocity * this.movement.directionFacing * 2);
             LOGGER.log(this.position.y, this.position.x);
             //LOGGER.log(this.movement.dashCooldown);
-        } else {
-            this.position.x += gameManager.getTimeAdjustedValue(this.move.x);
-            this.position.y += gameManager.getTimeAdjustedValue(this.move.y);
         }
+        this.position.x += gameManager.getTimeAdjustedValue(this.move.x);
+        this.position.y += gameManager.getTimeAdjustedValue(this.move.y);
+
         this.checkWorldPostion();
 
         if (this.movement.startJump) {
@@ -106,6 +115,7 @@ class Player extends Entity {
             // // fix this
             //     this.position.x += this.movement.directionFacing * (this.getBoundaryWidth() + otherObject.getBoundaryWidth());
         } else if (otherObject.name === "wall") {
+
         }
     }
     /*draw() {
@@ -142,6 +152,7 @@ class Player extends Entity {
         if (this.health.currentHp < 0)
             this.health.currentHp = 0;
         this.health.changed = true;
+        this.checkDeath();
         return this.health.currentHp;
     }
     heal(hp) {
@@ -236,8 +247,15 @@ class Player extends Entity {
         return true;
     }
 
+    attack() {
+        this.attack.isAttacking;
+    }
+
     getHP() {
-        return this.health.currentHp;
+        return this.health.currentHp + this.health.bonusHP;
+    }
+    getHearts() {
+        return this.health.currentHP;
     }
     getBonusHP() {
         return this.health.bonusHP;
