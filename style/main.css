@@ -52,15 +52,12 @@ main {
 }
 
 #gameView {
-    max-width: 90vw;
-    max-height: 73vh;
-    min-width: 100px;
-    min-height: 100px;
     width: auto;
-    height: 1080px;
+    height: 560px;
     aspect-ratio: 16/9;
     position: relative;
     overflow: hidden;
+    background-color: pink;
 }
 
 .gameElement {
@@ -70,6 +67,7 @@ main {
     bottom: 0;
     left: 0;
     aspect-ratio: 1696/256;
+    margin-left: 0;
 }
 
 #background {

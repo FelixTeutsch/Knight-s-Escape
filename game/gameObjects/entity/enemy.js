@@ -1,9 +1,4 @@
 class Enemy extends Entity {
-    move = {
-        x: 1,
-        y: 0
-    };
-
     playerFollowThreshold = 100;
     attack = {
         isAttacking: false,
@@ -36,7 +31,6 @@ class Enemy extends Entity {
 
         // get distance to player
         let distanceToPlayer = Math.sqrt((Math.abs(this.position.x - player.position.x) ** 2) + (Math.abs(this.position.y - player.position.y) ** 2));
-
         if (Math.abs(this.position.x - player.position.x) == 0)
             this.move.x = 0;
         else if (distanceToPlayer < this.playerFollowThreshold)
@@ -63,6 +57,7 @@ class Enemy extends Entity {
         this.attack.attackCooldown--;
 
         // Round Position
+        // console.log(this.position.x)
         this.position.x = Math.round(this.position.x);
         this.position.y = Math.round(this.position.y);
     }

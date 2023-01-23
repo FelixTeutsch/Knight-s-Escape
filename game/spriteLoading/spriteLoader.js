@@ -29,19 +29,20 @@ class SpriteLoader {
         let bg = document.getElementById("background");
         cv.width = this.levelMap[0].length * this.#elementSize;
         cv.height = this.levelMap.length * this.#elementSize;
-
+            console.log(cv.width);
         cv.style.width = this.levelMap[0].length * this.#elementSize * 2.5 + "px";
         cv.style.height = this.levelMap.length * this.#elementSize * 2.5 + "px";
         bg.style.width = this.levelMap[0].length * this.#elementSize * 2.5 + "px";
         bg.style.height = this.levelMap.length * this.#elementSize * 2.5 + "px";
 
-        console.log(cv.width, cv.width);
         let playerPosition = {
             x: 0,
             y: 0
         };
-        moveLeft = new HorizontalScrolling("moveLeft", 64 * 2, 0, 16, this.levelMap[0].length * this.#elementSize, "gameView");
-        moveRight = new HorizontalScrolling("moveRight", 64 * 5, 0, 16, this.levelMap[0].length * this.#elementSize, "gameView");
+        moveLeft = new HorizontalScrolling("moveLeft");
+        moveRight = new HorizontalScrolling("moveRight");
+
+
         for (let y = 0; y < this.levelMap.length; y++) {
             for (let x = 0; x < this.levelMap[0].length; x++) {
                 let currentKey = this.levelMap[y][x];

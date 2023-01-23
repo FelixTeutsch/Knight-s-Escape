@@ -36,7 +36,7 @@ class GravityHelper {
             // object.antiGravityForce -= this.gravityFactor * multiplier * object.mass;
             // object.position.y -= this.gravityFactor * multiplier * object.mass;
             object.antiGravityForce -= gameManager.getTimeAdjustedValue(this.gravityFactor / 2.1* multiplier * object.mass);
-            object.position.y -= object.antiGravityForce;
+            object.position.y -= object.antiGravityForce * 4;
         }
     }
 

@@ -5,17 +5,26 @@ class GameManager {
 	previousTimeStamp = 0;
 	deltaTime;
 	timeModyfier = 30;
-
+	gameOver = false;
 	constructor() {
 		window.gameManager = this;
 		window.gravityHelper = new GravityHelper();
+		this.gameOver = false;
 		// window.mouseHelper = new MouseHelper();
 		//LOGGER.log("gameManager created");
 	}
 
+	// Reset the Game!
+	restartGame() {
+		gameManager.gameOver = false;
+		gameManager.gameObjects = [];
+	}
+
 	//functions
 	gameLoop() {
-		if(gameManager.previousTimeStamp == 0) {
+		if (gameManager.gameOver)
+			return true;
+		if (gameManager.previousTimeStamp == 0) {
 			gameManager.previousTimeStamp = performance.now();
 		}
 		let currentTimeStamp = performance.now();
@@ -122,7 +131,8 @@ class GameManager {
 	}
 
 	getTimeAdjustedValue(value) {
-		return value / (1000 / 30) * (gameManager.deltaTime);
+		// return value / (1000 / 30) * (gameManager.deltaTime);
+		return value;
 	}
 
 }

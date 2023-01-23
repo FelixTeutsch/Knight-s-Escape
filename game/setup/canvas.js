@@ -1,5 +1,5 @@
 class Canvas {
-    
+
     canvasHTMLElement = null;
     drawLayer = null;
     canvasBoundaries = null;
@@ -13,8 +13,11 @@ class Canvas {
             left: 0,
             top: 0
         };
+        this.setCanvasToGameManager();
+    }
+    setCanvasToGameManager() {
 
         gameManager.setCanvas(this);
     }
-    
+
 }

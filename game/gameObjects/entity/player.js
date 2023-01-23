@@ -10,7 +10,12 @@ class Player extends Entity {
 
     weapon = {
         weaponList: [],
-        selectedWeapon: 0
+        selectedWeapon: 0,
+        attack: {
+            isAttacking: false,
+            duration: 0,
+            stage: 0
+        }
     }
 
     isAttacking = false;
@@ -38,25 +43,29 @@ class Player extends Entity {
         this.health.bonusHeartSprite = [];
 
         for (let i = 0; i < this.health.currentHp; i++) {
-            this.health.heartSprite.push(new Heart(124 + (8 + 1) * i, 29));
+            this.health.heartSprite.push(new Heart(104 + (8 + 1) * i, gameManager.canvas.canvasHTMLElement.height - 22));
         }
         for (let i = 0; i < this.health.bonusHP; i++) {
-            this.health.bonusHeartSprite.push(new BonusHeart(124 + (8 + 1) * this.health.maxHp + (8 + 1) * i, 29));
+            this.health.bonusHeartSprite.push(new BonusHeart(104 + (8 + 1) * this.health.maxHp + (8 + 1) * i, gameManager.canvas.canvasHTMLElement.height - 22));
         }
 
         this.health.changed = true;
     }
 
     update() {
+        if (this.health.death.isDead && this.health.death.deathAnimationFrame++ >= this.health.death.deathAnimationFrameEnd) {
+            this.isActive = false;
+            gameManager.gameOver = true;
+            return;
+        }
         if (this.movement.dashCooldown-- > 0) {
-            this.position.x += gameManager.getTimeAdjustedValue(this.move.velocity * this.movement.directionFacing * 2);
-            this.position.x = Math.round(this.position.x * 10) / 10;
+            this.move.x = gameManager.getTimeAdjustedValue(this.move.velocity * this.movement.directionFacing * 2);
             LOGGER.log(this.position.y, this.position.x);
             //LOGGER.log(this.movement.dashCooldown);
-        } else {
-            this.position.x += gameManager.getTimeAdjustedValue(this.move.x);
-            this.position.y += gameManager.getTimeAdjustedValue(this.move.y);
         }
+        this.position.x += gameManager.getTimeAdjustedValue(this.move.x);
+        this.position.y += gameManager.getTimeAdjustedValue(this.move.y);
+
         this.checkWorldPostion();
 
         if (this.movement.startJump) {
@@ -106,6 +115,7 @@ class Player extends Entity {
             // // fix this
             //     this.position.x += this.movement.directionFacing * (this.getBoundaryWidth() + otherObject.getBoundaryWidth());
         } else if (otherObject.name === "wall") {
+
         }
     }
     /*draw() {
@@ -142,11 +152,12 @@ class Player extends Entity {
         if (this.health.currentHp < 0)
             this.health.currentHp = 0;
         this.health.changed = true;
+        this.checkDeath();
         return this.health.currentHp;
     }
     heal(hp) {
         this.health.changed = true;
-        return this.health.currentHp = Math.min(healPoints + this.health.currentHp, this.health.maxHp);
+        return this.health.currentHp = Math.min(hp + this.health.currentHp, this.health.maxHp);
     }
     bonusHP(healPoints) {
         this.health.changed = true;
@@ -169,7 +180,7 @@ class Player extends Entity {
         } else if (this.health.bonusHeartSprite.length < this.health.bonusHP)
             // Add Missing Bonus HP
             for (let i = this.health.bonusHeartSprite.length; i < this.health.bonusHP; i++)
-                this.health.bonusHeartSprite.push(new BonusHeart(124 + (8 + 1) * this.health.maxHp + (8 + 1) * i, 29));
+                this.health.bonusHeartSprite.push(new BonusHeart(104 + (8 + 1) * this.health.maxHp + (8 + 1) * i, gameManager.canvas.canvasHTMLElement.height - 22));
     }
 
 
@@ -236,8 +247,15 @@ class Player extends Entity {
         return true;
     }
 
+    attack() {
+        this.attack.isAttacking;
+    }
+
     getHP() {
-        return this.health.currentHp;
+        return this.health.currentHp + this.health.bonusHP;
+    }
+    getHearts() {
+        return this.health.currentHP;
     }
     getBonusHP() {
         return this.health.bonusHP;

@@ -7,11 +7,12 @@ class Obstacle extends SpriteImage {
     onCollision(otherObject) {
         if (otherObject.name == "player") {
             if (player.movement.dashCooldown < 0)
-                otherObject.restorePosition();
-            else {
+                player.movement.dashCooldown = 0;
+            otherObject.restorePosition();
+            /*else {
                 player.position.x += player.movement.directionFacing * 16;
                 //console.log("Dashed through wall!", player.position.x);
-            }
+            }*/
         } else if (otherObject.name == "enemy") {
             otherObject.restorePosition();
         }
