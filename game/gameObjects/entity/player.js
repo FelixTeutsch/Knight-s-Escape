@@ -146,7 +146,7 @@ class Player extends Entity {
     }
     heal(hp) {
         this.health.changed = true;
-        return this.health.currentHp = Math.min(healPoints + this.health.currentHp, this.health.maxHp);
+        return this.health.currentHp = Math.min(hp + this.health.currentHp, this.health.maxHp);
     }
     bonusHP(healPoints) {
         this.health.changed = true;

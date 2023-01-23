@@ -3,41 +3,44 @@ class HorizontalScrolling extends GameObject {
     gameContainer;
     minMarginLeft;
     canvasStyle;
+    currentMarginLeft;
 
-
-    constructor(name, x, y, width, height, gameContainerId) {
-        super(name, x, y, width, height);
-        this.gameContainer = document.getElementById(gameContainerId);
+    constructor(name) {
+        super(name, 0, 0, 16,  gameManager.canvas.canvasHTMLElement.height);
+        this.gameContainer = document.getElementById("gameView");
         let currentGameContainerWidth = parseInt(this.gameContainer.clientWidth);
         let currentCanvasWidth = gameManager.canvas.canvasHTMLElement.width;
-        this.minMarginLeft = currentGameContainerWidth - currentCanvasWidth;
-        console.log(this.minMarginLeft, currentGameContainerWidth, currentCanvasWidth);
+        this.minMarginLeft = -currentCanvasWidth + (currentGameContainerWidth / (4)); // fix this value
+        if (this.name === "moveLeft")
+            this.position.x = currentGameContainerWidth / (4 * 2.5);
+        else if (name === "moveRight")
+            this.position.x = currentGameContainerWidth * 3 / (4 * 2.5);
+        this.currentMarginLeft = 0;
     }
 
     onCollision(otherObject) {
-        let currentGameContainerMarginLeft = parseInt(this.gameContainer.style.marginLeft);
-        let shouldMoveLevel = false;
-        let c = document.getElementById("canvas");
-        this.canvasStyle = gameManager.canvas.currentStyle || window.getComputedStyle(gameManager.canvas.canvasHTMLElement);
-        console.log(this.canvasStyle.marginLeft);
-        if (this.name == "moveRight" && otherObject.name == "player" && otherObject.move.x > 0 /*&& currentGameContainerMarginLeft > this.minMarginLeft*/) {
-            console.log("COLLITION");
-            shouldMoveLevel = true;
-        }
-        else if (this.name == "moveLeft" && otherObject.name == "player" && otherObject.move.x < 0 && this.canvasStyle.marginLeft < 0) {
-            shouldMoveLevel = true;
-        }
+        if (otherObject.name == "player") {
 
-        if (shouldMoveLevel) {
-            let text = this.canvasStyle.marginLeft - otherObject.move.x + "px";
-            c.style.marginLeft = text;
-            //this.gameContainer.style.width = otherObject.move.x + "px";
-            moveLeft.position.x += otherObject.move.x;
-            moveRight.position.x += otherObject.move.x;
+            let shouldMoveLevel = false;
+            let c = document.getElementById("canvas");
+            this.canvasStyle = gameManager.canvas.currentStyle || window.getComputedStyle(c);
+            if (this.name == "moveRight" && otherObject.move.x > 0 && this.currentMarginLeft - otherObject.move.x * 2.5 > this.minMarginLeft) {
+                shouldMoveLevel = true;
+            }
+            else if (this.name == "moveLeft" && otherObject.move.x < 0 && this.currentMarginLeft < 0) {
+                shouldMoveLevel = true;
+            }
+            if (shouldMoveLevel) {
+                this.currentMarginLeft -= otherObject.move.x * 2.5;
+                moveLeft.currentMarginLeft = moveRight.currentMarginLeft = this.currentMarginLeft;
+                document.getElementById("canvas").style.marginLeft = this.currentMarginLeft + "px";
+                moveLeft.position.x += otherObject.move.x;
+                moveRight.position.x += otherObject.move.x;
 
-            player.weapon["weaponList"].forEach(weapon => weapon.position.x += otherObject.move.x);
-            player.health.heartSprite.forEach(heart => heart.position.x += otherObject.move.x);
-            player.health.bonusHeartSprite.forEach(heart => heart.position.x += otherObject.move.x);
+                player.weapon["weaponList"].forEach(weapon => weapon.position.x += otherObject.move.x);
+                player.health.heartSprite.forEach(heart => heart.position.x += otherObject.move.x);
+                player.health.bonusHeartSprite.forEach(heart => heart.position.x += otherObject.move.x);
+            }
         }
     }
     draw() {
