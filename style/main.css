@@ -72,8 +72,9 @@ main {
 
 #background {
     background-color: var(--Comment);
-    background: url("../image/background/background_cracked.aseprite");
-    background-size: contain;
+    background: url("../image/background/background.png");
+    background-size: auto;
+    background-repeat: repeat;
 }
 
 #canvas {
