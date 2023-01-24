@@ -29,11 +29,15 @@ class SpriteLoader {
         let bg = document.getElementById("background");
         cv.width = this.levelMap[0].length * this.#elementSize;
         cv.height = this.levelMap.length * this.#elementSize;
-            console.log(cv.width);
+        // console.log(cv.width);
         cv.style.width = this.levelMap[0].length * this.#elementSize * 2.5 + "px";
         cv.style.height = this.levelMap.length * this.#elementSize * 2.5 + "px";
         bg.style.width = this.levelMap[0].length * this.#elementSize * 2.5 + "px";
         bg.style.height = this.levelMap.length * this.#elementSize * 2.5 + "px";
+
+        canvasSize.width = this.levelMap[0].length * this.#elementSize * 2.5;
+        canvasSize.height = this.levelMap.length * this.#elementSize * 2.5;
+        console.log(canvasSize.width);
 
         let playerPosition = {
             x: 0,

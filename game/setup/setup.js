@@ -8,6 +8,10 @@ let moveLeft;
 let moveRight;
 let moveUp;
 let moveDown;
+let canvasSize = {
+    width:0,
+    height:0
+}
 
 let LOGGER = new Logger(false);
 
