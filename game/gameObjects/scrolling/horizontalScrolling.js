@@ -2,7 +2,6 @@ class HorizontalScrolling extends GameObject {
 
     gameContainer;
     minMarginLeft;
-    // canvasStyle;
     currentMarginLeft;
     canvasToMove;
     backgroundToMove;
@@ -11,14 +10,14 @@ class HorizontalScrolling extends GameObject {
         super(name, 0, 0, 16, gameManager.canvas.canvasHTMLElement.height);
         this.gameContainer = document.getElementById("gameView");
         let currentGameContainerWidth = parseInt(this.gameContainer.clientWidth);
-        let currentCanvasWidth = gameManager.canvas.canvasHTMLElement.width;
 
         this.canvasToMove = document.getElementById("canvas");
         this.backgroundToMove = document.getElementById("background");
 
         // this.canvasStyle = this.canvasToMove.currentStyle || window.getComputedStyle(this.canvasToMove);
-        this.minMarginLeft = - canvasSize.width + (currentGameContainerWidth / 4) * 2.5; // fix this value
-        console.log("Canvas Size Width:",this.minMarginLeft)
+        this.minMarginLeft = - canvasSize.width + ((currentGameContainerWidth / 4) * 2.5); // fix this value
+        this.minMarginLeft = -2884;
+        console.log("Canvas Size Width:", this.minMarginLeft)
         if (this.name === "moveLeft")
             this.position.x = currentGameContainerWidth / (4 * 2.5);
         else if (name === "moveRight")
@@ -31,7 +30,7 @@ class HorizontalScrolling extends GameObject {
 
             let c = document.getElementById("canvas");
             let shouldMoveLevel = false;
-            if (this.name == "moveRight" && otherObject.move.x > 0 && this.currentMarginLeft /*- otherObject.move.x * 2.5*/ > this.minMarginLeft) {
+            if (this.name == "moveRight" && otherObject.move.x > 0 && this.currentMarginLeft > this.minMarginLeft) {
                 shouldMoveLevel = true;
             }
             else if (this.name == "moveLeft" && otherObject.move.x < 0 && this.currentMarginLeft < 0) {
@@ -39,6 +38,7 @@ class HorizontalScrolling extends GameObject {
             }
             if (shouldMoveLevel) {
                 this.currentMarginLeft -= otherObject.move.x * 2.5;
+                this.currentMarginLeft = Math.max(this.currentMarginLeft, this.minMarginLeft);
                 moveLeft.currentMarginLeft = moveRight.currentMarginLeft = this.currentMarginLeft;
                 // document.getElementById("canvas").style.marginLeft = this.currentMarginLeft + "px";
                 this.canvasToMove.style.marginLeft = this.currentMarginLeft + "px";

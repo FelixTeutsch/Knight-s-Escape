@@ -34,19 +34,16 @@ class SpriteAnimation extends GameObject {
             this.rows = this.image.naturalHeight / this.dimensions.height;
             LOGGER.log("row:", this.rows, "col:", this.columns);
         });
-        this.boundaryOffsets.bottom = -1;
-        this.boundaryOffsets.top = 1;
-        this.boundaryOffsets.right = -1;
-        this.boundaryOffsets.left = 1;
+
     }
 
     draw() {
-        gameManager.canvas.drawLayer.beginPath();
-        gameManager.canvas.drawLayer.strokeStyle = "#FFFFFF";
-        gameManager.canvas.drawLayer.lineWidth = 1;
-        gameManager.canvas.drawLayer.rect(this.position.x + 1, this.position.y + 1, this.dimensions.width - 2, this.dimensions.height - 2);
-        gameManager.canvas.drawLayer.stroke();
-        gameManager.canvas.drawLayer.closePath();
+        // gameManager.canvas.drawLayer.beginPath();
+        // gameManager.canvas.drawLayer.strokeStyle = "#FFFFFF";
+        // gameManager.canvas.drawLayer.lineWidth = 1;
+        // gameManager.canvas.drawLayer.rect(this.position.x + 1, this.position.y + 1, this.dimensions.width - 2, this.dimensions.height - 2);
+        // gameManager.canvas.drawLayer.stroke();
+        // gameManager.canvas.drawLayer.closePath();
         if (this.entityHP.show) {
             // Draw current HP
             gameManager.canvas.drawLayer.beginPath();
@@ -68,7 +65,11 @@ class SpriteAnimation extends GameObject {
         if (this.isLoaded) {
             this.changeFrameOfCurrentAnimation();
             gameManager.canvas.drawLayer.beginPath();
-            gameManager.canvas.drawLayer.drawImage(this.image, this.currentSourceX, this.currentSourceY, this.dimensions.width, this.dimensions.height, this.position.x, this.position.y, this.dimensions.width, this.dimensions.height);
+            gameManager.canvas.drawLayer.drawImage(
+                this.image,
+                this.currentSourceX, this.currentSourceY, this.dimensions.width, this.dimensions.height,
+                this.position.x, this.position.y, this.dimensions.width, this.dimensions.height
+            );
             gameManager.canvas.drawLayer.closePath();
         }
     }
@@ -138,6 +139,7 @@ class SpriteAnimation extends GameObject {
     }
 
     setCurrentAnimationByName(name) {
+        console.log(name);
         this.currentStartFrame = this.animations[name].startFrame;
         this.currentEndFrame = this.animations[name].endFrame;
         this.currentAnimationFrame = this.animations[name].startFrame;

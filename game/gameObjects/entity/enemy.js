@@ -14,14 +14,30 @@ class Enemy extends Entity {
         attackCooldown: 0
     }
     constructor(name, x, y, width, height, src) {
+        src ??= "./image/entity/enemy/enemy.png";
         super(name, x, y, width, height, src);
+        this.addAnimationInformation("attack_right", 0, 10);
+        this.addAnimationInformation("attack_left", 18, 28);
+        this.addAnimationInformation("walk_left", 36, 43);
+        this.addAnimationInformation("walk_right", 55, 61);
+        this.addAnimationInformation("idle", 72, 89);
+
+        this.setCurrentAnimationByName("walk_right");
         LOGGER.log("Enemy has been created");
         this.useGravity = true;
         this.mass = 1;
+        this.move.velocity = 1;
+        this.move.direction.previous = 1;
+        this.move.direction.current = 1;
         // Set Enemy Stats
         this.health.currentHP = 15;
         this.health.maxHP = 15;
         this.attack.damage = 1;
+
+        this.boundaryOffsets.bottom = -1;
+        // this.boundaryOffsets.top = 1;
+        // this.boundaryOffsets.right = -1;
+        // this.boundaryOffsets.left = 1;
 
         // Display Enemy Stats
         this.displayHP(this.health.maxHP, this.health.currentHP);
@@ -56,8 +72,34 @@ class Enemy extends Entity {
         }
         this.attack.attackCooldown--;
 
+        // if (Math.abs(this.position.x - this.prevPosition.x)<=1 && Math.abs(this.position.y - this.prevPosition.y)<=1) {
+        //     this.move.x = 0;
+        //     this.move.y = 0;
+        // } else
+        // console.log(this.position.x, this.prevPosition.x);
+
         // Round Position
         // console.log(this.position.x)
+        this.move.direction.current = ((this.move.x < 0) ? -1 : ((this.move.x > 0) ? 1 : 0));
+        if (this.move.direction.current != this.move.direction.previous) {
+            // TODO: Implement Attack Sprite Handeling
+            // this.setCurrentAnimationByName("attack_right");
+            // this.setCurrentAnimationByName("attack_left");
+            // TODO: Add Padding
+            // TODO: Fix Animations
+
+            if (this.move.direction.current == 0) {
+                this.setCurrentAnimationByName("idle");
+                // console.log("IDLE");
+            } else if (this.move.direction.current < 0) {
+                this.setCurrentAnimationByName("walk_left");
+                // console.log("Left");
+            } else if (this.move.direction.current > 0) {
+                this.setCurrentAnimationByName("walk_right");
+                // console.log("right");
+            }
+            this.move.direction.previous = this.move.direction.current;
+        }
         this.position.x = Math.round(this.position.x);
         this.position.y = Math.round(this.position.y);
     }
@@ -81,5 +123,9 @@ class Enemy extends Entity {
             }
             this.restorePosition();
         }
+    }
+
+    walkLeftAnimation() {
+
     }
 }

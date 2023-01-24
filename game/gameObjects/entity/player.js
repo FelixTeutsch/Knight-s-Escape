@@ -22,7 +22,6 @@ class Player extends Entity {
 
     constructor(name, x, y, width, height, src) {
         super(name, x, y, width, height, src);
-        LOGGER.log("PlayerFigure has been created");
         this.useGravity = true;
         this.mass = .6;
 
@@ -48,6 +47,18 @@ class Player extends Entity {
         for (let i = 0; i < this.health.bonusHP; i++) {
             this.health.bonusHeartSprite.push(new BonusHeart(104 + (8 + 1) * this.health.maxHp + (8 + 1) * i, gameManager.canvas.canvasHTMLElement.height - 22));
         }
+
+
+        this.addAnimationInformation("player_walk_right", 0, 7);
+        this.addAnimationInformation("player_walk_left", 8, 15);
+        this.addAnimationInformation("player_jump_right", 16, 22);
+        this.addAnimationInformation("player_jump_left", 24, 30);
+        this.addAnimationInformation("player_idle_right", 32, 34);
+        this.addAnimationInformation("player_idle_left", 40, 42);
+
+        // TODO: Fix Animation not working!
+        this.setCurrentAnimationByName("player_idle_right");
+        console.log("Test");
 
         this.health.changed = true;
     }

@@ -2,7 +2,11 @@ class Entity extends SpriteAnimation {
     move = {
         x: 1,
         y: 0,
-        velocity: 4
+        velocity: 2,
+        direction: {
+            current: 0,
+            previous: 0
+        }
     };
 
     health = {
@@ -16,7 +20,7 @@ class Entity extends SpriteAnimation {
     };
 
     constructor(name, x, y, width, height, src) {
-        super(name, x, y, width, height, src);
+        super(name, x, y - height, width, height, src);
     }
 
     update() {

@@ -2,7 +2,7 @@ class SpriteImage extends GameObject {
     image;
     isLoaded = false;
 
-    source = "";
+    // source = "";
     spriteSize = {
         width: 0,
         height: 0
@@ -37,7 +37,7 @@ class SpriteImage extends GameObject {
             gameManager.canvas.drawLayer.drawImage(
                 this.image,
                 this.spritePosition.x, this.spritePosition.y, this.spriteSize.width, this.spriteSize.height,
-                this.position.x, this.position.y, this.dimensions.height, this.dimensions.width
+                this.position.x, this.position.y, this.dimensions.width, this.dimensions.height
             );
             gameManager.canvas.drawLayer.closePath();
             //LOGGER.log("drawn");
