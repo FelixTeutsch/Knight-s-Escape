@@ -146,7 +146,6 @@ class Enemy extends Entity {
     hitAttack() {
         if (this.attack.cooldown.current >= 0 || !this.attack.isDamaging)
             return 0;
-        LOGGER.log("Enemy landed a hit...");
         this.attack.cooldown.current = this.attack.cooldown.max;
         this.attack.isDamaging = false;
         this.attack.attacksHit++;

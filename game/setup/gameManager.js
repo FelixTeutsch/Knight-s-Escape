@@ -6,6 +6,9 @@ class GameManager {
 	deltaTime;
 	timeModyfier = 30;
 	gameOver = false;
+
+	showHitbox = false;
+	showSpriteSize = false;
 	constructor() {
 		window.gameManager = this;
 		window.gravityHelper = new GravityHelper();

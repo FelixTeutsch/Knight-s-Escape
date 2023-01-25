@@ -240,6 +240,7 @@ class Player extends Entity {
         if (this.health.currentHp < 0)
             this.health.currentHp = 0;
         this.health.changed = true;
+        this.health.damaged = true;
         this.checkDeath();
         return this.health.currentHp;
     }

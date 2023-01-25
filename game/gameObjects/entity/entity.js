@@ -16,7 +16,8 @@ class Entity extends SpriteAnimation {
             isDead: false,
             deathAnimationFrame: 0,
             deathAnimationFrameEnd: 1
-        }
+        },
+        damaged: false
     };
 
     constructor(name, x, y, width, height, src) {
@@ -40,6 +41,7 @@ class Entity extends SpriteAnimation {
         LOGGER.log(Math.max(this.health.currentHP - damage, 0));
         this.health.currentHP = Math.min(Math.max(this.health.currentHP - damage, 0), this.health.maxHP);
         this.alterHP(this.health.currentHP);
+        this.health.damaged = true;
         return this.health.currentHP;
     }
 

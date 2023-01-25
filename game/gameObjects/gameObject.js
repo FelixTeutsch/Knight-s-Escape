@@ -53,7 +53,6 @@ class GameObject {
         this.dimensions.width = width;
         this.dimensions.height = height;
         gameManager.addGameObject(this);
-        //LOGGER.log(`x:y ${this.position.x}:${this.position.y}`);
     }
 
     storePosition() {
@@ -64,8 +63,6 @@ class GameObject {
     restorePosition() {
         this.position.x = this.prevPosition.x;
         this.position.y = this.prevPosition.y;
-        if (this.name == "player")
-            LOGGER.log("Position restored: ", this.position.x, this.position.y);
     }
 
     setBoundaryOffsets(left, right, top, bottom) {

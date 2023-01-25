@@ -48,6 +48,15 @@ function keyDown(event) {
         case "e": case "0":
             keyPressing[pressedKey] = player.pickUp(true);
             break;
+
+        case "h":
+            keyPressing[pressedKey] = true;
+            console.log("Hitboxes", (gameManager.showHitbox = !gameManager.showHitbox) ? "Shown" : "Hidden");
+            break;
+        case "g":
+            keyPressing[pressedKey] = true;
+            console.log("Sprite Sizes", (gameManager.showSpriteSize = !gameManager.showSpriteSize) ? "Shown" : "Hidden");
+            break;
         default:
             LOGGER.log(pressedKey);
     }
@@ -105,9 +114,14 @@ function keyUp(event) {
 
         case "e": case "0":
             keyPressing[pressedKey] = player.pickUp(false);
-            LOGGER.log("Pick Up / Use");
             break;
 
+        case "h":
+            keyPressing[pressedKey] = false;
+            break;
+        case "g":
+            keyPressing[pressedKey] = false;
+            break;
     }
 }
 

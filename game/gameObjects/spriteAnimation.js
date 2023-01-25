@@ -26,17 +26,17 @@ class SpriteAnimation extends GameObject {
     drawPlayerSize = true;
     drawBoundingBox = true;
 
+
+    damageTimer = 0;
+
     constructor(name, x, y, width, height, src) {
         super(name, x, y, width, height);
         this.image = new Image();
         this.image.src = src;
-        LOGGER.log(width, height);
         this.image.addEventListener("load", () => {
             this.isLoaded = true;
-            LOGGER.log("Is loaded:" + this.image.src)
             this.columns = this.image.naturalWidth / this.dimensions.width;
             this.rows = this.image.naturalHeight / this.dimensions.height;
-            LOGGER.log("row:", this.rows, "col:", this.columns);
         });
 
     }
@@ -44,8 +44,15 @@ class SpriteAnimation extends GameObject {
     draw() {
         gameManager.canvas.drawLayer.save();
         gameManager.canvas.drawLayer.globalAlpha = 1;
+        if (this.health.damaged && this.damageTimer++ <= 40) {
+            if (this.damageTimer % 20 <= 10)
+                gameManager.canvas.drawLayer.globalAlpha = .5;
+        } else {
+            this.health.damaged = false;
+            this.damageTimer = 0;
+        }
 
-        if (this.drawPlayerSize) {
+        if (gameManager.showHitbox) {
             gameManager.canvas.drawLayer.beginPath();
             gameManager.canvas.drawLayer.strokeStyle = "white";
             gameManager.canvas.drawLayer.lineWidth = 1;
@@ -53,7 +60,7 @@ class SpriteAnimation extends GameObject {
             gameManager.canvas.drawLayer.stroke();
             gameManager.canvas.drawLayer.closePath();
         }
-        if (this.drawBoundingBox) {
+        if (gameManager.showSpriteSize) {
             gameManager.canvas.drawLayer.beginPath();
             gameManager.canvas.drawLayer.strokeStyle = "red";
             gameManager.canvas.drawLayer.lineWidth = 1;
@@ -80,9 +87,8 @@ class SpriteAnimation extends GameObject {
             gameManager.canvas.drawLayer.lineTo(this.position.x + this.entityHP.hpStart / 2 + this.entityHP.hpWidth, this.position.y - 3);
             gameManager.canvas.drawLayer.stroke();
             gameManager.canvas.drawLayer.closePath();
-            
+
         }
-        gameManager.canvas.drawLayer.restore();
 
         if (this.isLoaded) {
             this.changeFrameOfCurrentAnimation();
@@ -94,6 +100,8 @@ class SpriteAnimation extends GameObject {
             );
             gameManager.canvas.drawLayer.closePath();
         }
+
+        gameManager.canvas.drawLayer.restore();
     }
 
     setCurrentAnimation(startFrame, endFrame) {
@@ -126,29 +134,6 @@ class SpriteAnimation extends GameObject {
         }
 
         this.animations[name] = animationInformation;
-
-        // if I now call 
-        // addAnimationInformation("walkAnimation", 0, 10);
-        // somewhere in my Code, then the object animations would be like:
-        // {
-        //    "walkAnimation": {
-        //          "startFrame": 0,
-        //          "endFrame": 10,
-        //     }
-        // }
-        // if I now call ADDITIONALLY
-        // addAnimationInformation("danceAnimation", 11, 20);
-        // somewhere in my Code, then the object animations would be like:
-        // {
-        //    "walkAnimation": {
-        //          "startFrame": 0,
-        //          "endFrame": 10,
-        //     },
-        //     "danceAnimation": {
-        //          "startFrame": 11
-        //          "endFrame": 20,
-        //     }
-        // }
     }
 
     displayHP(maxHP, currentHp) {
@@ -164,7 +149,7 @@ class SpriteAnimation extends GameObject {
     setCurrentAnimationByName(name) {
         if (this.currentAnimation === name)
             return false;
-        console.log(name);
+        LOGGER.log(name);
         this.currentAnimation = name;
         this.currentStartFrame = this.animations[name].startFrame;
         this.currentEndFrame = this.animations[name].endFrame;
