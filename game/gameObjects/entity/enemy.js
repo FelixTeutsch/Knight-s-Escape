@@ -16,13 +16,13 @@ class Enemy extends Entity {
     constructor(name, x, y, width, height, src) {
         src ??= "./image/entity/enemy/enemy.png";
         super(name, x, y, width, height, src);
-        this.addAnimationInformation("attack_right", 0, 10);
-        this.addAnimationInformation("attack_left", 18, 28);
-        this.addAnimationInformation("walk_left", 36, 43);
-        this.addAnimationInformation("walk_right", 55, 61);
-        this.addAnimationInformation("idle", 72, 89);
+        this.addAnimationInformation("enemy_attack_right", 0, 10);
+        this.addAnimationInformation("enemy_attack_left", 18, 28);
+        this.addAnimationInformation("enemy_walk_left", 36, 43);
+        this.addAnimationInformation("enemy_walk_right", 55, 61);
+        this.addAnimationInformation("enemy_idle", 72, 89);
 
-        this.setCurrentAnimationByName("walk_right");
+        this.setCurrentAnimationByName("enemy_walk_right");
         LOGGER.log("Enemy has been created");
         this.useGravity = true;
         this.mass = 1;
@@ -83,19 +83,19 @@ class Enemy extends Entity {
         this.move.direction.current = ((this.move.x < 0) ? -1 : ((this.move.x > 0) ? 1 : 0));
         if (this.move.direction.current != this.move.direction.previous) {
             // TODO: Implement Attack Sprite Handeling
-            // this.setCurrentAnimationByName("attack_right");
-            // this.setCurrentAnimationByName("attack_left");
+            // this.setCurrentAnimationByName("enemy_attack_right");
+            // this.setCurrentAnimationByName("enemy_attack_left");
             // TODO: Add Padding
             // TODO: Fix Animations
 
             if (this.move.direction.current == 0) {
-                this.setCurrentAnimationByName("idle");
-                // console.log("IDLE");
+                this.setCurrentAnimationByName("enemy_idle");
+                // console.log("enemy_IDLE");
             } else if (this.move.direction.current < 0) {
-                this.setCurrentAnimationByName("walk_left");
+                this.setCurrentAnimationByName("enemy_walk_left");
                 // console.log("Left");
             } else if (this.move.direction.current > 0) {
-                this.setCurrentAnimationByName("walk_right");
+                this.setCurrentAnimationByName("enemy_walk_right");
                 // console.log("right");
             }
             this.move.direction.previous = this.move.direction.current;

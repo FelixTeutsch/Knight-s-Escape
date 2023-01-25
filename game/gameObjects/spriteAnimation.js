@@ -5,12 +5,13 @@ class SpriteAnimation extends GameObject {
     rows = 0;
     currentSourceX = 0;
     currentSourceY = 0;
-    currentStartFrame = 0;
-    currentEndFrame = 0;
-    currentAnimationFrame = 0;
+    currentStartFrame = 10;
+    currentEndFrame = 10;
+    currentAnimationFrame = 10;
     isLoaded = false;
     animationDurationPerFrame = 5;
     currentAnimationFrameDuration = 0;
+    currentAnimation = "";
 
     entityHP = {
         show: false,
@@ -81,6 +82,7 @@ class SpriteAnimation extends GameObject {
     }
 
     changeFrameOfCurrentAnimation() {
+
         this.currentAnimationFrameDuration++;
         if (this.currentAnimationFrameDuration < this.animationDurationPerFrame) {
             return;
@@ -139,7 +141,10 @@ class SpriteAnimation extends GameObject {
     }
 
     setCurrentAnimationByName(name) {
+        if (this.currentAnimation === name)
+            return false;
         console.log(name);
+        this.currentAnimation = name;
         this.currentStartFrame = this.animations[name].startFrame;
         this.currentEndFrame = this.animations[name].endFrame;
         this.currentAnimationFrame = this.animations[name].startFrame;

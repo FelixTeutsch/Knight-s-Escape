@@ -38,7 +38,6 @@ class SpriteLoader {
 
         canvasSize.width = this.levelMap[0].length * this.#elementSize * 2.5;
         canvasSize.height = this.levelMap.length * this.#elementSize * 2.5;
-        console.log(canvasSize.width);
 
         let playerPosition = {
             x: 0,

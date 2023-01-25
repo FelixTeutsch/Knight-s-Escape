@@ -9,10 +9,8 @@ function keyDown(event) {
         return;
     switch (pressedKey) {
         case "w": case "arrowup": case " ":
-            if (player.jump())
-                keyPressing[pressedKey] = true;
-            else
-                keyRequest[pressedKey] = true;
+            keyPressing[pressedKey] = true;
+            player.jumpHold = true;
             LOGGER.log("Jump");
             break;
 
@@ -60,7 +58,8 @@ function keyUp(event) {
     keyRequest[pressedKey] = false;
     switch (pressedKey) {
         case "w": case "arrowup": case " ":
-            //keyPressing[pressedKey] = player.jump(false);
+            player.jumpHold = false;
+            player.jump();
             break;
 
         case "s": case "arrowdown":

@@ -18,10 +18,13 @@ class Player extends Entity {
         }
     }
 
+    jumpHold = false;
+
     isAttacking = false;
 
     constructor(name, x, y, width, height, src) {
         super(name, x, y, width, height, src);
+
         this.useGravity = true;
         this.mass = .6;
 
@@ -49,16 +52,26 @@ class Player extends Entity {
         }
 
 
-        this.addAnimationInformation("player_walk_right", 0, 7);
-        this.addAnimationInformation("player_walk_left", 8, 15);
-        this.addAnimationInformation("player_jump_right", 16, 22);
-        this.addAnimationInformation("player_jump_left", 24, 30);
-        this.addAnimationInformation("player_idle_right", 32, 34);
-        this.addAnimationInformation("player_idle_left", 40, 42);
+        this.boundaryOffsets.bottom = -1;
 
-        // TODO: Fix Animation not working!
-        this.setCurrentAnimationByName("player_idle_right");
-        console.log("Test");
+        this.image.addEventListener("load", () => {
+            this.addAnimationInformation("player_walk_right", 0, 7);
+            this.addAnimationInformation("player_walk_left", 8, 15);
+            this.addAnimationInformation("player_idle_right", 32, 34);
+            this.addAnimationInformation("player_idle_left", 40, 42);
+            // Jump Right
+            this.addAnimationInformation("player_jump_start_right", 16, 18);
+            this.addAnimationInformation("player_jump_hold_right", 18, 18);
+            this.addAnimationInformation("player_jump_double_right", 19, 19);
+            this.addAnimationInformation("player_jump_right", 20, 20);
+            this.addAnimationInformation("player_land_right", 21, 23);
+            // Jump Left
+            this.addAnimationInformation("player_jump_start_left", 24, 26);
+            this.addAnimationInformation("player_jump_hold_left", 26, 26);
+            this.addAnimationInformation("player_jump_double_left", 27, 27);
+            this.addAnimationInformation("player_jump_left", 28, 28);
+            this.addAnimationInformation("player_land_left", 29, 31);
+        });
 
         this.health.changed = true;
     }
@@ -73,7 +86,9 @@ class Player extends Entity {
             this.move.x = gameManager.getTimeAdjustedValue(this.move.velocity * this.movement.directionFacing * 2);
             LOGGER.log(this.position.y, this.position.x);
             //LOGGER.log(this.movement.dashCooldown);
-        }
+        } /*else {
+            this.move.x = this.move.velocity * this.movement.directionFacing;
+        }*/
         this.position.x += gameManager.getTimeAdjustedValue(this.move.x);
         this.position.y += gameManager.getTimeAdjustedValue(this.move.y);
 
@@ -95,6 +110,52 @@ class Player extends Entity {
         // ROUND POSITION
         this.position.x = Math.round(this.position.x);
         this.position.y = Math.round(this.position.y);
+
+        // Animations
+        if (this.isLoaded) {
+            let direction = (this.movement.directionFacing >= 0 ? "right" : "left");
+            // Do The Landing!
+            if (!this.isFalling && this.antiGravityForce <= 0 && (
+                this.currentAnimation === "player_jump_double_right" ||
+                this.currentAnimation === "player_jump_right" ||
+                this.currentAnimation === "player_land_right" ||
+                this.currentAnimation === "player_jump_double_left" ||
+                this.currentAnimation === "player_jump_left" ||
+                this.currentAnimation === "player_land_left"
+            )) {
+                this.setCurrentAnimationByName("player_land_" + direction);
+                this.animationDurationPerFrame = 1
+                console.log("Player is landing");
+                if (this.currentAnimationFrame != this.currentEndFrame)
+                    return;
+            }
+
+            if (this.jumpHold) {
+                console.log("Holding Jump")
+                this.animationDurationPerFrame = 5;
+                if ((this.currentAnimation === "player_jump_start_left" || this.currentAnimation === "player_jump_start_right") && this.currentAnimationFrame != this.currentEndFrame)
+                    this.setCurrentAnimationByName("player_jump_start_" + direction);
+                else
+                    this.setCurrentAnimationByName("player_jump_hold_" + direction);
+            } else if (this.move.x == 0 && !this.isFalling && this.antiGravityForce <= 0) {
+                this.setCurrentAnimationByName("player_idle_" + direction);
+                this.animationDurationPerFrame = 10;
+            } else if (this.move.x != 0 && !this.isFalling && this.antiGravityForce <= 0) {
+                this.setCurrentAnimationByName("player_walk_" + direction);
+                this.animationDurationPerFrame = 5;
+            } else if (this.isFalling || this.antiGravityForce >= 0) {
+                this.animationDurationPerFrame = 1;
+                if /*(this.currentAnimation === "player_jump_right" || this.currentAnimation === "player_jump_left" ||
+                ((this.currentAnimation === "player_jump_start_left" || this.currentAnimation === "player_jump_start_right")
+                && this.currentAnimationFrame == this.currentEndFrame))*/
+                    (this.currentAnimationFrame == this.currentEndFrame) {
+                    this.setCurrentAnimationByName("player_jump_" + direction);
+                } else {
+                    this.animationDurationPerFrame = 5;
+                    this.setCurrentAnimationByName("player_jump_double_" + direction);
+                }
+            }
+        }
     }
 
     checkWorldPostion() {
