@@ -6,6 +6,7 @@ class GameManager {
 	deltaTime;
 	timeModyfier = 30;
 	gameOver = false;
+	playerWon = true;
 
 	showHitbox = false;
 	showSpriteSize = false;

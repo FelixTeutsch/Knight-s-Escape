@@ -79,8 +79,6 @@ class Player extends Entity {
     }
 
     update() {
-
-
         if (this.health.death.isDead && this.health.death.deathAnimationFrame++ >= this.health.death.deathAnimationFrameEnd) {
             this.isActive = false;
             gameManager.gameOver = true;
@@ -203,6 +201,9 @@ class Player extends Entity {
                 otherObject.isActive = false;
             }
 
+        } else if(otherObject.name === "exit") {
+            gameManager.gameOver = true;
+            gameManager.playerWon = true;
         }
     }
 
