@@ -14,6 +14,8 @@ class SpriteImage extends GameObject {
         y: 0
     }
 
+    showCooldown = false;
+
     constructor(name, x, y, width, height, src, row, col, spriteWidth, spriteHeight) {
         super(name, x, y, width, height);
         this.spriteSize.width = spriteWidth;
@@ -31,6 +33,9 @@ class SpriteImage extends GameObject {
     }
 
     draw() {
+        if (this.showCooldown) {
+
+        }
         if (this.isLoaded) {
             gameManager.canvas.drawLayer.beginPath();
             gameManager.canvas.drawLayer.drawImage(

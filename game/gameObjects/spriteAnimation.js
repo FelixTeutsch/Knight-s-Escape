@@ -26,6 +26,16 @@ class SpriteAnimation extends GameObject {
     drawPlayerSize = true;
     drawBoundingBox = true;
 
+    pickUpInfo = {
+        showInfo: false,
+        image: new Image(),
+        spriteSize: 9,
+        currentFrame: 0,
+        startFrame: 0,
+        endFrame: 0,
+        currentFrameTimer: 0,
+        isLoaded: false
+    };
 
     damageTimer = 0;
 
@@ -38,10 +48,41 @@ class SpriteAnimation extends GameObject {
             this.columns = this.image.naturalWidth / this.dimensions.width;
             this.rows = this.image.naturalHeight / this.dimensions.height;
         });
+    }
+
+    showPickUpInfo(show) {
+        if (!this.pickUpInfo.isLoaded) {
+            this.pickUpInfo.image.src = "./image/info/e.png";
+            this.pickUpInfo.startFrame = 0;
+            this.pickUpInfo.endFrame = 1;
+            this.pickUpInfo.currentFrame = 0;
+            this.pickUpInfo.image.addEventListener("load", () => {
+                this.pickUpInfo.isLoaded = show;
+            });
+        }
 
     }
 
     draw() {
+        if (this.pickUpInfo.isLoaded && this.pickUpInfo.showInfo) {
+            gameManager.canvas.drawLayer.beginPath();
+            gameManager.canvas.drawLayer.drawImage(
+                this.pickUpInfo.image,
+                this.pickUpInfo.spriteSize * this.pickUpInfo.currentFrame, 0,
+                this.pickUpInfo.spriteSize, this.pickUpInfo.spriteSize,
+                this.boundaries.getLeftBoundary() + Math.ceil((this.getBoundaryWidth() / 2 - this.pickUpInfo.spriteSize / 2)),
+                this.boundaries.getTopBoundary() - 3 - this.pickUpInfo.spriteSize,
+                this.pickUpInfo.spriteSize, this.pickUpInfo.spriteSize
+            );
+            gameManager.canvas.drawLayer.closePath();
+            this.pickUpInfo.currentFrameTimer++;
+            this.pickUpInfo.currentFrameTimer %= 30;
+            if (this.pickUpInfo.currentFrameTimer == 0)
+                this.pickUpInfo.currentFrame++;
+            this.pickUpInfo.currentFrame %= 2;
+            this.pickUpInfo.showInfo = false;
+        }
+
         gameManager.canvas.drawLayer.save();
         gameManager.canvas.drawLayer.globalAlpha = 1;
         if (this.health.damaged && this.damageTimer++ <= 40) {

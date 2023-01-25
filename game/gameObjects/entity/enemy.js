@@ -66,8 +66,6 @@ class Enemy extends Entity {
                 new Potion("potion", this.position.x, this.position.y, "normal", 1);
         }
 
-        this.move.direction.current = ((this.move.x < 0) ? -1 : ((this.move.x > 0) ? 1 : 0));
-        let direction = (this.move.direction.current >= 0 ? "right" : "left");
 
         // Move Enemy to Player
         let distanceToPlayer = Math.sqrt((Math.abs(this.boundaries.getLeftBoundary() - player.boundaries.getLeftBoundary()) ** 2) + (Math.abs(this.boundaries.getTopBoundary() - player.boundaries.getTopBoundary()) ** 2));
@@ -80,6 +78,8 @@ class Enemy extends Entity {
             else
                 this.move.x = this.move.velocity;
 
+        this.move.direction.current = ((this.move.x < 0) ? -1 : ((this.move.x > 0) ? 1 : 0));
+        let direction = (this.move.direction.current >= 0 ? "right" : "left");
 
         // Attack
         if (this.attack.playerContact || this.currentAnimation === "enemy_attack_left" || this.currentAnimation === "enemy_attack_right")

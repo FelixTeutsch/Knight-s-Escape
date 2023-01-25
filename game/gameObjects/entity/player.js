@@ -71,6 +71,7 @@ class Player extends Entity {
             this.addAnimationInformation("player_land_left", 29, 31);
         });
 
+        this.showPickUpInfo(true);  
 
         // this.setBoundaryOffsets(8, -9, 8, -1);
         this.setBoundaryOffsets(18, -19, 9, -1);
@@ -191,6 +192,7 @@ class Player extends Entity {
         } else if (otherObject.name === "wall") {
 
         } else if (otherObject.name === "potion") {
+            this.pickUpInfo.showInfo = true;
             if (this.pickUpItem) {
                 if (otherObject.getType() === "normal")
                     this.heal(otherObject.getStrength());
@@ -201,9 +203,12 @@ class Player extends Entity {
                 otherObject.isActive = false;
             }
 
-        } else if(otherObject.name === "exit") {
-            gameManager.gameOver = true;
-            gameManager.playerWon = true;
+        } else if (otherObject.name === "exit") {
+            this.pickUpInfo.showInfo = true;
+            if (this.pickUpItem) {
+                gameManager.gameOver = true;
+                gameManager.playerWon = true;
+            }
         }
     }
 

@@ -4,5 +4,7 @@ class Exit extends Obstacle {
         width ??= 80;
         src ??= "./image/exit/exit.png";
         super("exit", x, y - height + 16, width, height, src, row ?? 0, col ?? 0, spriteWidth ?? (width ?? 80), spriteHeight ?? (height ?? 71));
+        this.setBoundaryOffsets(20, -20, 20, 0);
+        this.isRigid = false;
     }
 }

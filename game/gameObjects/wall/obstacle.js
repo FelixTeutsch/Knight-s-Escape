@@ -8,7 +8,8 @@ class Obstacle extends SpriteImage {
         if (otherObject.name == "player") {
             if (player.movement.dashCooldown < 0)
                 player.movement.dashCooldown = 0;
-            otherObject.restorePosition();
+            if (!(this.name === "exit"))
+                otherObject.restorePosition();
             /*else {
                 player.position.x += player.movement.directionFacing * 16;
                 //console.log("Dashed through wall!", player.position.x);
