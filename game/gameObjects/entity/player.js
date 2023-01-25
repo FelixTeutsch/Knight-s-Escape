@@ -72,8 +72,8 @@ class Player extends Entity {
         });
 
 
-        this.setBoundaryOffsets(8, -9, 8, -1);
-        this.setBoundaryOffsets(9, -10, 9, -1);
+        // this.setBoundaryOffsets(8, -9, 8, -1);
+        this.setBoundaryOffsets(18, -19, 9, -1);
 
         this.health.changed = true;
     }

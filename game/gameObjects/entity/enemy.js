@@ -70,11 +70,11 @@ class Enemy extends Entity {
         let direction = (this.move.direction.current >= 0 ? "right" : "left");
 
         // Move Enemy to Player
-        let distanceToPlayer = Math.sqrt((Math.abs(this.position.x - player.position.x) ** 2) + (Math.abs(this.position.y - player.position.y) ** 2));
-        if (Math.abs(this.position.x - player.position.x) == 0)
+        let distanceToPlayer = Math.sqrt((Math.abs(this.boundaries.getLeftBoundary() - player.boundaries.getLeftBoundary()) ** 2) + (Math.abs(this.boundaries.getTopBoundary() - player.boundaries.getTopBoundary()) ** 2));
+        if (Math.abs(this.boundaries.getLeftBoundary() - player.boundaries.getLeftBoundary()) == 0)
             this.move.x = 0;
         else if (distanceToPlayer < this.playerFollowThreshold)
-            if (player.position.x < this.position.x)
+            if (player.boundaries.getLeftBoundary() < this.boundaries.getLeftBoundary())
                 // move towards player if in range
                 this.move.x = this.move.velocity * -1;
             else
