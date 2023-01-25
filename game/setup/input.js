@@ -10,6 +10,7 @@ function keyDown(event) {
     switch (pressedKey) {
         case "w": case "arrowup": case " ":
             keyPressing[pressedKey] = true;
+            keyRequest[pressedKey] = true;
             player.jumpHold = true;
             LOGGER.log("Jump");
             break;
@@ -45,7 +46,7 @@ function keyDown(event) {
             LOGGER.log("Dash");
             break;
         case "e": case "0":
-            LOGGER.log("Pick Up / Use");
+            keyPressing[pressedKey] = player.pickUp(true);
             break;
         default:
             LOGGER.log(pressedKey);
@@ -100,12 +101,12 @@ function keyUp(event) {
                     keyPressing[pressedKey] = player.dash(true);
                     LOGGER.log("Dash");
                     break;
-        
-                case "e": case "0":
-        
-                    LOGGER.log("Pick Up / Use");
-                    break;
-        */
+                    */
+
+        case "e": case "0":
+            keyPressing[pressedKey] = player.pickUp(false);
+            LOGGER.log("Pick Up / Use");
+            break;
 
     }
 }

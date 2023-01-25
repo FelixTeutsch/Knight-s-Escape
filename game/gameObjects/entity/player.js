@@ -21,6 +21,7 @@ class Player extends Entity {
     jumpHold = false;
 
     isAttacking = false;
+    pickUpItem = false;
 
     constructor(name, x, y, width, height, src) {
         super(name, x, y, width, height, src);
@@ -51,9 +52,6 @@ class Player extends Entity {
             this.health.bonusHeartSprite.push(new BonusHeart(104 + (8 + 1) * this.health.maxHp + (8 + 1) * i, gameManager.canvas.canvasHTMLElement.height - 22));
         }
 
-
-        this.boundaryOffsets.bottom = -1;
-
         this.image.addEventListener("load", () => {
             this.addAnimationInformation("player_walk_right", 0, 7);
             this.addAnimationInformation("player_walk_left", 8, 15);
@@ -73,10 +71,16 @@ class Player extends Entity {
             this.addAnimationInformation("player_land_left", 29, 31);
         });
 
+
+        this.setBoundaryOffsets(8, -9, 8, -1);
+        this.setBoundaryOffsets(9, -10, 9, -1);
+
         this.health.changed = true;
     }
 
     update() {
+
+
         if (this.health.death.isDead && this.health.death.deathAnimationFrame++ >= this.health.death.deathAnimationFrameEnd) {
             this.isActive = false;
             gameManager.gameOver = true;
@@ -84,6 +88,8 @@ class Player extends Entity {
         }
         if (this.movement.dashCooldown-- > 0) {
             this.move.x = gameManager.getTimeAdjustedValue(this.move.velocity * this.movement.directionFacing * 2);
+            this.move.y = 0;
+            this.position.y = this.prevPosition.y;
             LOGGER.log(this.position.y, this.position.x);
             //LOGGER.log(this.movement.dashCooldown);
         } /*else {
@@ -175,10 +181,8 @@ class Player extends Entity {
 
     onCollision(otherObject) {
         if (otherObject.name === "enemy" && !this.isAttacking) {
-            let enemy = otherObject;
-            if (enemy.attack.isAttacking == true) {
-                let dmg = enemy.hitAttack();
-                this.takeDamage(dmg);
+            if (otherObject.attack.isDamaging) {
+                this.takeDamage(otherObject.hitAttack());
             }
             if (this.position.x < otherObject.position.x && this.movement.directionFacing > 0 ||
                 this.position.x > otherObject.position.x && this.movement.directionFacing < 0)
@@ -188,8 +192,20 @@ class Player extends Entity {
             //     this.position.x += this.movement.directionFacing * (this.getBoundaryWidth() + otherObject.getBoundaryWidth());
         } else if (otherObject.name === "wall") {
 
+        } else if (otherObject.name === "potion") {
+            if (this.pickUpItem) {
+                if (otherObject.getType() === "normal")
+                    this.heal(otherObject.getStrength());
+                else if (otherObject.getType() === "bonus")
+                    this.bonusHP(otherObject.getStrength());
+                else
+                    console.log("Hacked Potion Found!");
+                otherObject.isActive = false;
+            }
+
         }
     }
+
     /*draw() {
         gameManager.canvas.drawLayer.beginPath();
         gameManager.canvas.drawLayer.fillStyle = "yellow";
@@ -252,7 +268,7 @@ class Player extends Entity {
         } else if (this.health.bonusHeartSprite.length < this.health.bonusHP)
             // Add Missing Bonus HP
             for (let i = this.health.bonusHeartSprite.length; i < this.health.bonusHP; i++)
-                this.health.bonusHeartSprite.push(new BonusHeart(104 + (8 + 1) * this.health.maxHp + (8 + 1) * i, gameManager.canvas.canvasHTMLElement.height - 22));
+                this.health.bonusHeartSprite.push(new BonusHeart(this.health.heartSprite[0].position.x + (8 + 1) * this.health.maxHp + (8 + 1) * i, gameManager.canvas.canvasHTMLElement.height - 22));
     }
 
 
@@ -319,8 +335,15 @@ class Player extends Entity {
         return true;
     }
 
-    attack() {
+    pickUp(start) {
+        return this.pickUpItem = start;
+    }
+
+    primaryAttack() {
         this.attack.isAttacking;
+    }
+    bonusAttack() {
+
     }
 
     getHP() {

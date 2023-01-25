@@ -1,5 +1,5 @@
 class GameObject {
-	name = "";
+    name = "";
     isActive = true;
     useGravity = false;
     isFalling = false;
@@ -9,27 +9,27 @@ class GameObject {
     mass = 1;
     //rotation = 0;
 
-    position =  {
+    position = {
         x: 20,
         y: 20
     };
 
-    prevPosition =  {
+    prevPosition = {
         "x": 20,
         "y": 20
     };
 
     boundaries = {
-        "getLeftBoundary": () => {
+        getLeftBoundary: () => {
             return this.position.x + this.boundaryOffsets.left;
-        }, 
-        "getRightBoundary": () => {
+        },
+        getRightBoundary: () => {
             return this.position.x + this.dimensions.width + this.boundaryOffsets.right;
-        }, 
-        "getTopBoundary": () => {
+        },
+        getTopBoundary: () => {
             return this.position.y + this.boundaryOffsets.top;
-        }, 
-        "getBottomBoundary": () => {
+        },
+        getBottomBoundary: () => {
             return this.position.y + this.dimensions.height + this.boundaryOffsets.bottom;
         }
     };
@@ -38,14 +38,14 @@ class GameObject {
         left: 0,
         right: 0,
         top: 0,
-        bottom: 0 
+        bottom: 0
     }
 
-    dimensions =  {
+    dimensions = {
         width: 40,
         height: 40
     };
-    
+
     constructor(name, x, y, width, height) {
         this.name = name;
         this.position.x = x;
@@ -64,10 +64,10 @@ class GameObject {
     restorePosition() {
         this.position.x = this.prevPosition.x;
         this.position.y = this.prevPosition.y;
-        if(this.name == "player")
-        LOGGER.log("Position restored: ",this.position.x, this.position.y);
+        if (this.name == "player")
+            LOGGER.log("Position restored: ", this.position.x, this.position.y);
     }
-    
+
     setBoundaryOffsets(left, right, top, bottom) {
         this.boundaryOffsets.left = left;
         this.boundaryOffsets.right = right;
@@ -93,10 +93,10 @@ class GameObject {
     }
 
     onCollision(otherObject) {
-     
+
     }
 
-    onMouseEvent(mouseEvent) { 
+    onMouseEvent(mouseEvent) {
         /*
             recentMouseEvent: 
             0 == hover, 

@@ -11,18 +11,26 @@ class Enemy extends Entity {
         },
         attacksHit: 0,
         damage: 0,
-        attackCooldown: 0
+        attackCooldown: 0,
+        cooldown: {
+            current: 0,
+            max: 0
+        },
+        playerContact: false
     }
+
     constructor(name, x, y, width, height, src) {
         src ??= "./image/entity/enemy/enemy.png";
         super(name, x, y, width, height, src);
-        this.addAnimationInformation("enemy_attack_right", 0, 10);
-        this.addAnimationInformation("enemy_attack_left", 18, 28);
-        this.addAnimationInformation("enemy_walk_left", 36, 43);
-        this.addAnimationInformation("enemy_walk_right", 55, 61);
-        this.addAnimationInformation("enemy_idle", 72, 89);
+        this.image.addEventListener("load", () => {
+            this.addAnimationInformation("enemy_attack_right", 0, 10); //( 6 / 7 is doing dmg)
+            this.addAnimationInformation("enemy_attack_left", 18, 28); // (24 / 25 is doing dmg)
+            this.addAnimationInformation("enemy_walk_left", 36, 43);
+            this.addAnimationInformation("enemy_walk_right", 55, 61);
+            this.addAnimationInformation("enemy_idle", 72, 89);
 
-        this.setCurrentAnimationByName("enemy_walk_right");
+            this.setCurrentAnimationByName("enemy_walk_right");
+        });
         LOGGER.log("Enemy has been created");
         this.useGravity = true;
         this.mass = 1;
@@ -36,8 +44,11 @@ class Enemy extends Entity {
 
         this.boundaryOffsets.bottom = -1;
         // this.boundaryOffsets.top = 1;
-        // this.boundaryOffsets.right = -1;
-        // this.boundaryOffsets.left = 1;
+        this.boundaryOffsets.right = -1;
+        this.boundaryOffsets.left = 1;
+
+        // Set attack cooldown
+        this.attack.cooldown.max = 200;
 
         // Display Enemy Stats
         this.displayHP(this.health.maxHP, this.health.currentHP);
@@ -45,7 +56,20 @@ class Enemy extends Entity {
 
     update() {
 
-        // get distance to player
+        // Check for death
+        if (this.health.currentHP == 0) {
+            this.isActive = false;
+            // spawn healing potion
+            if (Math.random() > 0.9)
+                new Potion("potion", this.position.x, this.position.y, "bonus", 1);
+            else if ((Math.random() + (1 - ((1 / ++this.attack.attacksHit)))) > 1)
+                new Potion("potion", this.position.x, this.position.y, "normal", 1);
+        }
+
+        this.move.direction.current = ((this.move.x < 0) ? -1 : ((this.move.x > 0) ? 1 : 0));
+        let direction = (this.move.direction.current >= 0 ? "right" : "left");
+
+        // Move Enemy to Player
         let distanceToPlayer = Math.sqrt((Math.abs(this.position.x - player.position.x) ** 2) + (Math.abs(this.position.y - player.position.y) ** 2));
         if (Math.abs(this.position.x - player.position.x) == 0)
             this.move.x = 0;
@@ -55,60 +79,77 @@ class Enemy extends Entity {
                 this.move.x = this.move.velocity * -1;
             else
                 this.move.x = this.move.velocity;
-        if (this.attack.isAttacking && this.attack.attackCooldown <= 0) {
-            if (this.attack.attackPhase.stage++ > this.attack.attackPhase.start && this.attack.attackPhase.stage < this.attack.attackPhase.end)
-                this.attack.isDamaging = true;
-            else
+
+
+        // Attack
+        if (this.attack.playerContact || this.currentAnimation === "enemy_attack_left" || this.currentAnimation === "enemy_attack_right")
+            if (this.attack.cooldown.current <= 0) {
+                this.setCurrentAnimationByName("enemy_attack_" + direction);
                 this.attack.isDamaging = false;
-            if (this.attack.attackPhase.stage >= this.attack.attackPhase.length) {
-                this.attack.isAttacking = false;
-                this.attack.attackPhase.stage = 0;
-                LOGGER.log("Cooldown Reset");
-                this.attack.attackCooldown = 100;
+                if (this.currentAnimationFrame == 6 || this.currentAnimationFrame == 7 ||
+                    this.currentAnimationFrame == 24 || this.currentAnimationFrame == 25) {
+                    this.attack.isDamaging = true;
+                } else if (this.currentAnimationFrame == this.currentEndFrame) {
+                    this.attack.cooldown.current = this.attack.cooldown.max;
+                    this.attack.playerContact = false;
+                }
+            } else if (this.attack.playerContact && this.attack.cooldown.current > 0) {
+                this.attack.isDamaging = false;
+                if (this.currentAnimationFrame == this.currentEndFrame)
+                    this.setCurrentAnimationByName("enemy_idle");
+                this.attack.cooldown.current--;
+                return;
             }
-        } else {
+
+        // Move Player
+        if (!this.attack.playerContact) {
+            // TODO: Implement Detection for running into a wall & go into idle
+            // Move Player
             this.position.x += gameManager.getTimeAdjustedValue(this.move.x);
             this.position.y += gameManager.getTimeAdjustedValue(this.move.y);
+
+            if (this.isLoaded)
+                // Set Animation
+                if (this.move.direction.current == 0) {
+                    this.setCurrentAnimationByName("enemy_idle");
+                } else
+                    this.setCurrentAnimationByName("enemy_walk_" + direction);
         }
-        this.attack.attackCooldown--;
+        this.attack.cooldown.current--;
 
-        // if (Math.abs(this.position.x - this.prevPosition.x)<=1 && Math.abs(this.position.y - this.prevPosition.y)<=1) {
-        //     this.move.x = 0;
-        //     this.move.y = 0;
-        // } else
-        // console.log(this.position.x, this.prevPosition.x);
-
-        // Round Position
-        // console.log(this.position.x)
-        this.move.direction.current = ((this.move.x < 0) ? -1 : ((this.move.x > 0) ? 1 : 0));
-        if (this.move.direction.current != this.move.direction.previous) {
-            // TODO: Implement Attack Sprite Handeling
-            // this.setCurrentAnimationByName("enemy_attack_right");
-            // this.setCurrentAnimationByName("enemy_attack_left");
-            // TODO: Add Padding
-            // TODO: Fix Animations
-
-            if (this.move.direction.current == 0) {
-                this.setCurrentAnimationByName("enemy_idle");
-                // console.log("enemy_IDLE");
-            } else if (this.move.direction.current < 0) {
-                this.setCurrentAnimationByName("enemy_walk_left");
-                // console.log("Left");
-            } else if (this.move.direction.current > 0) {
-                this.setCurrentAnimationByName("enemy_walk_right");
-                // console.log("right");
-            }
-            this.move.direction.previous = this.move.direction.current;
-        }
         this.position.x = Math.round(this.position.x);
         this.position.y = Math.round(this.position.y);
+        /*
+                this.move.direction.current = ((this.move.x < 0) ? -1 : ((this.move.x > 0) ? 1 : 0));
+                if (this.isLoaded) {
+        
+                    if (this.attack.isAttacking && this.attack.attackCooldown <= 0) {
+                        this.setCurrentAnimationByName("enemy_attack_" + direction);
+                        if (this.currentAnimationFrame == 6 || this.currentAnimationFrame == 7 || this.currentAnimationFrame == 24 || this.currentAnimationFrame == 25) {
+                            this.position.x += this.move.direction.current;
+                            this.attack.isDamaging = true;
+                        } else
+                            this.attack.isDamaging = false;
+                        if (this.currentAnimationFrame != this.currentEndFrame)
+                            return;
+                        else {
+                            this.attack.attackCooldown = 100;
+                            this.isAttacking = false;
+                        }
+                    }
+        
+                    this.move.direction.previous = this.move.direction.current;
+                    //
+                }*/
     }
 
     hitAttack() {
-        if (this.attack.attackCooldown >= 0 || !this.attack.isAttacking)
+        if (this.attack.cooldown.current >= 0 || !this.attack.isDamaging)
             return 0;
         LOGGER.log("Enemy landed a hit...");
-        this.attack.attackCooldown = 100;
+        this.attack.cooldown.current = this.attack.cooldown.max;
+        this.attack.isDamaging = false;
+        this.attack.attacksHit++;
         return this.attack.damage;
     }
 
@@ -117,11 +158,7 @@ class Enemy extends Entity {
             this.move.x *= -1;
             this.move.y *= -1;
         } else if (otherObject.name === "player") {
-            if (!this.attack.isAttacking && this.attack.attackCooldown <= 0) {
-                this.attack.isAttacking = true;
-                LOGGER.log("Attack Started!")
-            }
-            this.restorePosition();
+            this.attack.playerContact = true;
         }
     }
 

@@ -23,6 +23,9 @@ class SpriteAnimation extends GameObject {
         currentHpWidth: 0
     };
 
+    drawPlayerSize = true;
+    drawBoundingBox = true;
+
     constructor(name, x, y, width, height, src) {
         super(name, x, y, width, height);
         this.image = new Image();
@@ -39,12 +42,28 @@ class SpriteAnimation extends GameObject {
     }
 
     draw() {
-        // gameManager.canvas.drawLayer.beginPath();
-        // gameManager.canvas.drawLayer.strokeStyle = "#FFFFFF";
-        // gameManager.canvas.drawLayer.lineWidth = 1;
-        // gameManager.canvas.drawLayer.rect(this.position.x + 1, this.position.y + 1, this.dimensions.width - 2, this.dimensions.height - 2);
-        // gameManager.canvas.drawLayer.stroke();
-        // gameManager.canvas.drawLayer.closePath();
+        gameManager.canvas.drawLayer.save();
+        gameManager.canvas.drawLayer.globalAlpha = 1;
+
+        if (this.drawPlayerSize) {
+            gameManager.canvas.drawLayer.beginPath();
+            gameManager.canvas.drawLayer.strokeStyle = "white";
+            gameManager.canvas.drawLayer.lineWidth = 1;
+            gameManager.canvas.drawLayer.rect(this.position.x, this.position.y, this.dimensions.width, this.dimensions.height);
+            gameManager.canvas.drawLayer.stroke();
+            gameManager.canvas.drawLayer.closePath();
+        }
+        if (this.drawBoundingBox) {
+            gameManager.canvas.drawLayer.beginPath();
+            gameManager.canvas.drawLayer.strokeStyle = "red";
+            gameManager.canvas.drawLayer.lineWidth = 1;
+            gameManager.canvas.drawLayer.rect(
+                this.boundaries.getLeftBoundary(), this.boundaries.getTopBoundary(),
+                this.getBoundaryWidth(),
+                this.getBoundaryHeight());
+            gameManager.canvas.drawLayer.stroke();
+            gameManager.canvas.drawLayer.closePath();
+        }
         if (this.entityHP.show) {
             // Draw current HP
             gameManager.canvas.drawLayer.beginPath();
@@ -61,8 +80,10 @@ class SpriteAnimation extends GameObject {
             gameManager.canvas.drawLayer.lineTo(this.position.x + this.entityHP.hpStart / 2 + this.entityHP.hpWidth, this.position.y - 3);
             gameManager.canvas.drawLayer.stroke();
             gameManager.canvas.drawLayer.closePath();
-
+            
         }
+        gameManager.canvas.drawLayer.restore();
+
         if (this.isLoaded) {
             this.changeFrameOfCurrentAnimation();
             gameManager.canvas.drawLayer.beginPath();
