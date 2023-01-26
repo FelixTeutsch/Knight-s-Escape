@@ -1,14 +1,14 @@
-1ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt2
-l                                                                                               r
-l                                                                                   <════>      r
-l                                                                       <════>                  r
-l                                                           <════>                              r
-l                                   <════>      ┌bbbb┐                                          r
-l                           <════>       ^      r■■■■l                                          r
-l                   <════>              <┴═══>  └tttt┘                                          r
-l           ┌b┐                                                                                 r
-l           r■l                    <══>                                                         r
-l         ┌b4■l                         <════>  ┌bbbb┐                                          r
-l         └t2■3b┐                               r■■■■3bb┐                                       r
-l   p       r■■■l                               r■■■■■■■l                                       r
-3bbbbbbbbbbb4■■■3bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb4■■■■■■■3bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb4
+1tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt2
+l                                                                                                      r
+l                                                                                                      r
+l                                                             c                                        r
+l                                   ^  x          x         <════>                                     r
+l                                   ├════>      ┌bbbb┐               ^   e   ^                         r
+l                   ^  e ^  <═══════╝         ┌b4■■■■l               ╚═══════╝                         r
+l                   ╚════╝                    └tttttt┘                          <════>                 r
+l                                                                                                      r
+l           ┌b┐            c        c                                                                  r
+l         ┌b4■l       <═══════════════════>      ┌bbb┐                                                 r
+l         └t2■3b┐                               ┌4■■■3bb┐                                      g       r
+l   p       r■■■l           e                   r■■■■■■■l        e                            ┌bbbbb┐  r
+3bbbbbbbbbbb4■■■3bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb4■■■■■■■3bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb4■■■■■3bb4

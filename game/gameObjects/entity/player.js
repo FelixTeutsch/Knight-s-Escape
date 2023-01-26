@@ -105,7 +105,7 @@ class Player extends Entity {
         this.showPickUpInfo(true);
 
         // this.setBoundaryOffsets(8, -9, 8, -1);
-        this.setBoundaryOffsets(15, -15, 9, -1);
+        this.setBoundaryOffsets(15, -15, 15, -1);
 
         this.health.changed = true;
     }

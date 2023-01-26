@@ -16,7 +16,7 @@ class HorizontalScrolling extends GameObject {
 
         // this.canvasStyle = this.canvasToMove.currentStyle || window.getComputedStyle(this.canvasToMove);
         this.minMarginLeft = - canvasSize.width + ((currentGameContainerWidth / 4) * 2.5); // fix this value
-        this.minMarginLeft = -2884;
+        this.minMarginLeft = -3164;
         if (this.name === "moveLeft")
             this.position.x = currentGameContainerWidth / (4 * 2.5);
         else if (name === "moveRight")
