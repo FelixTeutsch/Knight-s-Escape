@@ -7,8 +7,6 @@ let score = 0;
 let scoreCounter;
 let moveLeft;
 let moveRight;
-let moveUp;
-let moveDown;
 let canvasSize = {
     width: 0,
     height: 0

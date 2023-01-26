@@ -26,8 +26,18 @@ class GameManager {
 
 	//functions
 	gameLoop() {
-		if (gameManager.gameOver)
+		if (gameManager.gameOver) {
+			gameManager.canvas.drawLayer.clearRect(0, 0, canvas.canvasHTMLElement.width, canvas.canvasHTMLElement.height);
+			moveLeft.backgroundToMove.style.visibility = "hidden";
+			// Check if player is dead
+			if (player.health.death.isDead) {
+				document.getElementById("gameView").classList.add("lose");
+			} else {
+				// show vicotry screen
+				document.getElementById("gameView").classList.add("win");
+			}
 			return true;
+		}
 		if (gameManager.previousTimeStamp == 0) {
 			gameManager.previousTimeStamp = performance.now();
 		}
@@ -79,7 +89,7 @@ class GameManager {
 						//gameObject.restoreCanvas();
 					}
 					// Fix Pixel bugs
-					if(gameLoopState == 5) {
+					if (gameLoopState == 5) {
 						gameObject.position.x = Math.floor(gameObject.position.x);
 						gameObject.position.y = Math.floor(gameObject.position.y);
 					}
