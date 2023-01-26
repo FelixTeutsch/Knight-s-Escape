@@ -29,7 +29,10 @@ class GameManager {
 		if (gameManager.gameOver) {
 			gameManager.canvas.drawLayer.clearRect(0, 0, canvas.canvasHTMLElement.width, canvas.canvasHTMLElement.height);
 			moveLeft.backgroundToMove.style.visibility = "hidden";
+			gameOver = true;
+			gameStarted = false;
 			// Check if player is dead
+			document.getElementById("gameView").classList.remove("controls");
 			if (player.health.death.isDead) {
 				document.getElementById("gameView").classList.add("lose");
 			} else {

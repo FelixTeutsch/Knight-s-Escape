@@ -59,12 +59,16 @@ main {
     overflow: hidden;
 }
 
+.controls {
+    background: url('../image/background/controls.png');
+    background-size: contain;
+}
+
 .lose {
     background: url('../image/background/lose.gif');
     background-size: cover;
 }
 .win {
-    
     background: url('../image/background/win.png');
     background-size: cover;
 }

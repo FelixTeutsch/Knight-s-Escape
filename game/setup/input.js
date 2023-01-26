@@ -126,18 +126,25 @@ function keyUp(event) {
 }
 
 function mouseDown(event) {
-    switch (event.button) {
-        case 0:
-            LOGGER.log("Primary Attack", player.primaryAttack());
-            break;
-        case 1:
-            LOGGER.log("Middle Click");
-            break;
-        case 2:
-            player.bonusAttack();
-            LOGGER.log("Bonus Attack");
-            break;
+    if (gameStarted)
+        switch (event.button) {
+            case 0:
+                LOGGER.log("Primary Attack", player.primaryAttack());
+                break;
+            case 1:
+                LOGGER.log("Middle Click");
+                break;
+            case 2:
+                player.bonusAttack();
+                LOGGER.log("Bonus Attack");
+                break;
+        }
+    else if (gameOver) {
+        console.log("Reload!");
+        window.location.reload(false);
     }
+    else
+        startGame();
 }
 
 function scrollEvent(event) {

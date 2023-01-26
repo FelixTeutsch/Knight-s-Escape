@@ -12,8 +12,13 @@ let canvasSize = {
     height: 0
 }
 let exit;
+let spriteLoader;
 
 let LOGGER = new Logger(true);
+
+let gameOver =false;
+
+let gameStarted = false;
 
 let testMap = [
     ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"],
@@ -72,7 +77,14 @@ function increaseScore(val) {
     LOGGER.log("New Score:", val);
 }
 
-canvas.setCanvasToGameManager();
-let spriteLoader = new SpriteLoader(levelOneMap);
+function startGame() {
+    if(!this.gameStarted)  {
+        this.gameStarted = true;
+        document.getElementById('background').style.visibility = "visible";
+        spriteLoader = new SpriteLoader(levelOneMap);
+        requestAnimationFrame(gameManager.gameLoop);
+    } else
+    return "HALT STOP!";
+}
 
-requestAnimationFrame(gameManager.gameLoop);
+canvas.setCanvasToGameManager();
