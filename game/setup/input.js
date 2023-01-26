@@ -142,13 +142,13 @@ function mouseDown(event) {
 
 function scrollEvent(event) {
     if (event.deltaY > 0) // Scroll forward
-        selected = mod(++selected, 3);
+        selected = mod(++selected, 2);
     else if (event.deltaY < 0)// Scroll Backward
-        selected = mod(--selected, 3);
+        selected = mod(--selected, 2);
     else if (event.deltaX > 0)
-        selected = mod(++selected, 3);
+        selected = mod(++selected, 2);
     else
-        selected = mod(--selected, 3);
+        selected = mod(--selected, 2);
 
     selected = player.selectNewWeapon(selected);
     //LOGGER.log("Item: ", selected, "selected")

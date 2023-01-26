@@ -64,6 +64,8 @@ class Enemy extends Entity {
                 new Potion("potion", this.position.x, this.position.y, "bonus", 1);
             else if ((Math.random() + (1 - ((1 / ++this.attack.attacksHit)))) > 1)
                 new Potion("potion", this.position.x, this.position.y, "normal", 1);
+            else
+                new Money("coin", this.position.x, this.position.y, 16, 16, "coin", 1);
         }
 
 

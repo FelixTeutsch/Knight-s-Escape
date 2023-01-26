@@ -48,6 +48,7 @@ class HorizontalScrolling extends GameObject {
                 player.weapon["weaponList"].forEach(weapon => weapon.position.x += otherObject.move.x);
                 player.health.heartSprite.forEach(heart => heart.position.x += otherObject.move.x);
                 player.health.bonusHeartSprite.forEach(heart => heart.position.x += otherObject.move.x);
+                scoreCounter.position.x += otherObject.move.x
             }
         }
     }

@@ -39,7 +39,7 @@ class Player extends Entity {
         this.mass = .6;
 
         this.weapon.weaponList.push(new Sword());
-        this.weapon.weaponList.push(new Bow());
+        //this.weapon.weaponList.push(new Bow());
         this.weapon.weaponList.push(new Shield());
         let temp = this.weapon.weaponList[this.weapon.selectedWeapon];
         temp.selectWeapon();
@@ -50,15 +50,15 @@ class Player extends Entity {
         this.health.maxHp = 5;
         this.health.maxBonusHp = 3;
         this.health.currentHp = this.health.maxHp;
-        this.health.bonusHP = 1;
+        this.health.bonusHP = 0;
         this.health.heartSprite = [];
         this.health.bonusHeartSprite = [];
 
         for (let i = 0; i < this.health.currentHp; i++) {
-            this.health.heartSprite.push(new Heart(104 + (8 + 1) * i, gameManager.canvas.canvasHTMLElement.height - 22));
+            this.health.heartSprite.push(new Heart(2 + (8 + 2) * i, 35 + 2));
         }
         for (let i = 0; i < this.health.bonusHP; i++) {
-            this.health.bonusHeartSprite.push(new BonusHeart(104 + (8 + 1) * this.health.maxHp + (8 + 1) * i, gameManager.canvas.canvasHTMLElement.height - 22));
+            this.health.bonusHeartSprite.push(new BonusHeart(2 + (8 + 2) * this.health.maxHp + (8 + 2) * i, 34 + 1 + 2));
         }
 
         this.image.addEventListener("load", () => {
@@ -356,7 +356,7 @@ class Player extends Entity {
         } else if (this.health.bonusHeartSprite.length < this.health.bonusHP)
             // Add Missing Bonus HP
             for (let i = this.health.bonusHeartSprite.length; i < this.health.bonusHP; i++)
-                this.health.bonusHeartSprite.push(new BonusHeart(this.health.heartSprite[0].position.x + (8 + 1) * this.health.maxHp + (8 + 1) * i, gameManager.canvas.canvasHTMLElement.height - 22));
+                this.health.bonusHeartSprite.push(new BonusHeart(this.health.heartSprite[0].position.x + (8 + 2) * this.health.maxHp + (8 + 2) * i, 34 + 3));
     }
 
 

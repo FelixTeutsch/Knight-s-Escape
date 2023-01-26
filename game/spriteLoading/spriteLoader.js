@@ -76,6 +76,7 @@ class SpriteLoader {
             }
         }
 
+        scoreCounter = new Score();
         // Draw player last to ensure that he is always drawn on top of things
         player = new Player("player", playerPosition.x * this.#elementSize, playerPosition.y * this.#elementSize, 45, 40, "./image/entity/player/player.png");
 

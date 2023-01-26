@@ -190,7 +190,6 @@ class SpriteAnimation extends GameObject {
     setCurrentAnimationByName(name) {
         if (this.currentAnimation === name)
             return false;
-        LOGGER.log(name);
         this.currentAnimation = name;
         this.currentStartFrame = this.animations[name].startFrame;
         this.currentEndFrame = this.animations[name].endFrame;

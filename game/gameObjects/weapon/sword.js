@@ -1,6 +1,6 @@
 class Sword extends Weapon {
     constructor() {
-        super("sword", 0, gameManager.canvas.canvasHTMLElement.height - 34, 34, 34, "./image/weapon/sword.png", 0, 0, 34, 34);
+        super("sword", 2, 2, 34, 34, "./image/weapon/sword.png", 0, 0, 34, 34);
         this.attack.primary.damage = 1;
         this.attack.bonus.damage = 2;
     }

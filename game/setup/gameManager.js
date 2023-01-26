@@ -78,6 +78,11 @@ class GameManager {
 						gameObject.draw();
 						//gameObject.restoreCanvas();
 					}
+					// Fix Pixel bugs
+					if(gameLoopState == 5) {
+						gameObject.position.x = Math.floor(gameObject.position.x);
+						gameObject.position.y = Math.floor(gameObject.position.y);
+					}
 				}
 			});
 		}
