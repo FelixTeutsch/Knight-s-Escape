@@ -128,12 +128,13 @@ function keyUp(event) {
 function mouseDown(event) {
     switch (event.button) {
         case 0:
-            LOGGER.log("Primary Attack");
+            LOGGER.log("Primary Attack", player.primaryAttack());
             break;
         case 1:
             LOGGER.log("Middle Click");
             break;
         case 2:
+            player.bonusAttack();
             LOGGER.log("Bonus Attack");
             break;
     }
@@ -149,7 +150,7 @@ function scrollEvent(event) {
     else
         selected = mod(--selected, 3);
 
-    player.selectNewWeapon(selected);
+    selected = player.selectNewWeapon(selected);
     //LOGGER.log("Item: ", selected, "selected")
 }
 

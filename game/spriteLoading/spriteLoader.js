@@ -77,7 +77,7 @@ class SpriteLoader {
         }
 
         // Draw player last to ensure that he is always drawn on top of things
-        player = new Player("player", playerPosition.x * this.#elementSize, playerPosition.y * this.#elementSize, 51, 32, "./image/entity/player/player.png");
+        player = new Player("player", playerPosition.x * this.#elementSize, playerPosition.y * this.#elementSize, 45, 40, "./image/entity/player/player.png");
 
     }
     getRandomInt(min, max) {

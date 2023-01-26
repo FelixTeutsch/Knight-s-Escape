@@ -48,7 +48,7 @@ class Enemy extends Entity {
         this.boundaryOffsets.left = 1;
 
         // Set attack cooldown
-        this.attack.cooldown.max = 200;
+        this.attack.cooldown.max = 100;
 
         // Display Enemy Stats
         this.displayHP(this.health.maxHP, this.health.currentHP);
@@ -86,7 +86,9 @@ class Enemy extends Entity {
             if (this.attack.cooldown.current <= 0) {
                 this.setCurrentAnimationByName("enemy_attack_" + direction);
                 this.attack.isDamaging = false;
-                if (this.currentAnimationFrame == 6 || this.currentAnimationFrame == 7 ||
+                if (this.currentAnimationFrame == this.currentStartFrame && (this.currentAnimation === "enemy_attack_left" || this.currentAnimation === "enemy_attack_right"))
+                    this.position.x += this.move.velocity * this.move.direction.current;
+                else if (this.currentAnimationFrame == 6 || this.currentAnimationFrame == 7 ||
                     this.currentAnimationFrame == 24 || this.currentAnimationFrame == 25) {
                     this.attack.isDamaging = true;
                 } else if (this.currentAnimationFrame == this.currentEndFrame) {
@@ -119,28 +121,6 @@ class Enemy extends Entity {
 
         this.position.x = Math.round(this.position.x);
         this.position.y = Math.round(this.position.y);
-        /*
-                this.move.direction.current = ((this.move.x < 0) ? -1 : ((this.move.x > 0) ? 1 : 0));
-                if (this.isLoaded) {
-        
-                    if (this.attack.isAttacking && this.attack.attackCooldown <= 0) {
-                        this.setCurrentAnimationByName("enemy_attack_" + direction);
-                        if (this.currentAnimationFrame == 6 || this.currentAnimationFrame == 7 || this.currentAnimationFrame == 24 || this.currentAnimationFrame == 25) {
-                            this.position.x += this.move.direction.current;
-                            this.attack.isDamaging = true;
-                        } else
-                            this.attack.isDamaging = false;
-                        if (this.currentAnimationFrame != this.currentEndFrame)
-                            return;
-                        else {
-                            this.attack.attackCooldown = 100;
-                            this.isAttacking = false;
-                        }
-                    }
-        
-                    this.move.direction.previous = this.move.direction.current;
-                    //
-                }*/
     }
 
     hitAttack() {

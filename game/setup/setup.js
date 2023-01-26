@@ -14,7 +14,7 @@ let canvasSize = {
 }
 let exit;
 
-let LOGGER = new Logger(false);
+let LOGGER = new Logger(true);
 
 let testMap = [
     ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"],
