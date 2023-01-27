@@ -40,7 +40,7 @@ class Enemy extends Entity {
         // Set Enemy Stats
         this.health.currentHP = 15;
         this.health.maxHP = 15;
-        this.attack.damage = 1;
+        this.attack.damage = 2;
 
         this.boundaryOffsets.bottom = -1;
         // this.boundaryOffsets.top = 1;
@@ -60,9 +60,9 @@ class Enemy extends Entity {
         if (this.health.currentHP == 0) {
             this.isActive = false;
             // spawn healing potion
-            if (Math.random() > 0.9)
+            if (Math.random() > 0.8)
                 new Potion("potion", this.position.x, this.position.y, "bonus", 1);
-            else if ((Math.random() + (1 - ((1 / ++this.attack.attacksHit)))) > 1)
+            else if ((Math.random() + (1 - ((1 / ++this.attack.attacksHit)))) > .95)
                 new Potion("potion", this.position.x, this.position.y, "normal", 1);
             else
                 new Money("coin", this.position.x, this.position.y, 16, 16, "coin", 1);

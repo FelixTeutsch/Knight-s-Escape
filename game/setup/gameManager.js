@@ -64,6 +64,8 @@ class GameManager {
 					if (gameLoopState == 0) {
 						gameObject.storePosition();
 						gameObject.update();
+						gameObject.position.x = Math.ceil(gameObject.position.x);
+						gameObject.position.y = Math.ceil(gameObject.position.y);
 					}
 					if (gameLoopState == 1) {
 						gameObject.currentGravityCollisionObject = null;
@@ -92,10 +94,10 @@ class GameManager {
 						//gameObject.restoreCanvas();
 					}
 					// Fix Pixel bugs
-					if (gameLoopState == 5) {
+					/*if (gameLoopState == 5) {
 						gameObject.position.x = Math.floor(gameObject.position.x);
 						gameObject.position.y = Math.floor(gameObject.position.y);
-					}
+					}*/
 				}
 			});
 		}
