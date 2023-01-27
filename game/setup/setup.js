@@ -14,7 +14,7 @@ let canvasSize = {
 let exit;
 let spriteLoader;
 
-let LOGGER = new Logger(true);
+let LOGGER = new Logger(false);
 
 let gameOver = false;
 
